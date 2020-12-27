@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-//var uniqueValidator = require('mongoose-unique-validator');
+var uniqueValidator = require('mongoose-unique-validator');
 var day = require('./day');
 var update = require('./update');
 
@@ -36,5 +36,5 @@ var userModel = new Schema({
     currentDay: day.schema
   });
 
-  //userSchema.plugin(uniqueValidator);
+  userModel.plugin(uniqueValidator);
   module.exports = mongoose.model('user', userModel);
