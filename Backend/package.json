@@ -1,0 +1,32 @@
+{
+  "name": "healthapp",
+  "version": "1.0.0",
+  "description": "A health app to keep track of the essentials!",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "devstart": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PhilbertLou/HealthApp.git"
+  },
+  "author": "Philbert Lou",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/PhilbertLou/HealthApp/issues"
+  },
+  "homepage": "https://github.com/PhilbertLou/HealthApp#readme",
+  "dependencies": {
+    "async": "^3.2.0",
+    "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.11.8",
+    "mongoose-unique-validator": "^2.0.3",
+    "nodemon": "^2.0.6",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0"
+  }
+}
