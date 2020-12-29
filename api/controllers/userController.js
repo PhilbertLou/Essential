@@ -20,8 +20,28 @@ exports.index = async function(req, res) {
     var today = new Date();
     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     
-    if(req.user.trackedDate === "" || req.user.trackedDate !== date){
-        if(req.user.trackedDate !== date){
+    if(req.user.trackedDate === null || req.user.trackedDate !== date){
+        if(req.user.trackedDate !== date && req.user.trackedDate !== null){
+            var prevday = await day.findOne({ _id: currentuser.currentDay._id });
+            prevday.wGoal = currentuser.currentDay.wGoal;
+            prevday.suGoal = currentuser.currentDay.suGoal;
+            prevday.soGoal = currentuser.currentDay.soGoal;
+            prevday.water = currentuser.currentDay.water;
+            prevday.sugar = currentuser.currentDay.sugar;
+            prevday.sodium = currentuser.currentDay.sodium;
+
+            currentuser.currentDay.updates.forEach(element => {
+                prevday.updates.push(element);
+            });
+
+            await prevday.save((err) => {
+                if(err){
+                    res.status(400).send({message:"Total amounts today cannot be negative"});
+                    return;
+                }
+                return;
+            })
+
             currentuser.previousDays.push(currentuser.currentDay);
         }
 
@@ -52,6 +72,7 @@ exports.index = async function(req, res) {
 
     // console.log(currentuser.currentDay);
     res.send({date: currentuser.trackedDate, currentDay: currentuser.currentDay, name: currentuser.name});
+    return;
     // console.log('HERE2')
     // wGoal: req.user.wGoal, soGoal: req.user.soGoal, suGoal: req.user.suGoal
 };
