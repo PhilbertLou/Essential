@@ -12,6 +12,7 @@ mongoose.set('useCreateIndex', true);
 
 //Change redirects to your own success/fail method you make yourself
 
+//TDates shouldnt overlap, but maybe add something to prevent duplicate dates or make it modify the same date doc
 exports.index = async function(req, res) {
     // res.send('NOT IMPLEMENTED: Homepage GET');
     // Prob dont need to send everything, may be too big
@@ -42,7 +43,8 @@ exports.index = async function(req, res) {
                 return;
             })
 
-            currentuser.previousDays.push(currentuser.currentDay);
+            // currentuser.previousDays.push(currentuser.currentDay);
+            currentuser.previousDays.push(currentuser.currentDay.date);
         }
 
         var todayModel = new day({wGoal: req.user.wGoal, suGoal: req.user.suGoal, soGoal: req.user.soGoal, date:date});
@@ -222,9 +224,47 @@ exports.previous1 = function(req, res) {
 };
 
 //option 2
-exports.previous2 = function(req, res) {
-    res.send('NOT IMPLEMENTED: Getting previous days info');
+exports.previous2 = async function(req, res) {
+    if(req.params.date){
+        try{   
+            var wantday = await day.findOne( {date: req.params.date} );
+            if(wantday){
+                res.status(200).json(wantday);
+                return;
+            }
+            res.status(400).send({message:"Day does not exist"});
+            return;
+        }catch{
+            res.status(400).send({message:"Error getting previous days"});
+            return;
+        }
+    }
+    try{
+        var currentuser = await user.findOne({ username: req.user.username });
+        res.send(currentuser.previousDays)
+        return;
+    }catch{
+        res.status(400).send({message:"Error getting previous days"});
+        return;
+    }
+
 };
+
+// //option 2 pt 2
+// exports.previous2pt2 = async function(req, res){
+//     try{   
+//         var wantday = await day.findOne( {date: req.params.date} );
+//         if(wantday){
+//             res.status(200).json(wantday);
+//             return;
+//         }
+//         res.status(400).send({message:"Day does not exist"});
+//         return;
+//     }catch{
+//         res.status(400).send({message:"Error getting previous days"});
+//         return;
+//     }
+// }
 
 
 // exports.updates = function(req, res) {

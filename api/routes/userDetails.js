@@ -30,7 +30,10 @@ router.post('/changepass', ensureAuthenticated, body('password1').isLength({ min
 
 router.get('/previousdays1', ensureAuthenticated, uC.previous1);
 
-router.get('/previousdays2', ensureAuthenticated, uC.previous2);
+router.get('/previousdays', ensureAuthenticated, uC.previous2);
+router.get('/previousdays/:date', ensureAuthenticated, uC.previous2);
+
+// router.get('/previousdays2pt2/:date', ensureAuthenticated, uC.previous2pt2);
 
 // router.get('/updates', ensureAuthenticated, uC.updates);
 

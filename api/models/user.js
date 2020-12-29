@@ -43,7 +43,7 @@ var userModel = new Schema({
     // },
     previousDays: {
         //In the future link previous days by _id and populate so youre not storing entire objects
-        type: [day.schema],
+        type: [String],
         default: null
     },
     trackedDate: {

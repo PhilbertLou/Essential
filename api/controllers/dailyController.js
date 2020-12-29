@@ -15,7 +15,7 @@ exports.addInfo = async function(req, res) {
             return res.status(400).json({ errors: errors.array() });
         }
         
-        if(req.user.trackedDate === ""){
+        if(req.user.trackedDate === null){
             // console.log("NEW ACC");
             // console.log(req.user.trackedDate);
 
@@ -71,7 +71,28 @@ exports.addInfo = async function(req, res) {
 
             if(req.user.trackedDate !== date){
                 // console.log("NEW DAY");
-                currentuser.previousDays.push(currentuser.currentDay);
+                var prevday = await day.findOne({ _id: currentuser.currentDay._id });
+                prevday.wGoal = currentuser.currentDay.wGoal;
+                prevday.suGoal = currentuser.currentDay.suGoal;
+                prevday.soGoal = currentuser.currentDay.soGoal;
+                prevday.water = currentuser.currentDay.water;
+                prevday.sugar = currentuser.currentDay.sugar;
+                prevday.sodium = currentuser.currentDay.sodium;
+
+                currentuser.currentDay.updates.forEach(element => {
+                    prevday.updates.push(element);
+                });
+
+                await prevday.save((err) => {
+                    if(err){
+                        res.status(400).send({message:"Total amounts today cannot be negative"});
+                        return;
+                    }
+                    return;
+                })
+
+                // currentuser.previousDays.push(currentuser.currentDay);
+                currentuser.previousDays.push(currentuser.currentDay.date);
                 
                 var todayModel = new day({wGoal: req.user.wGoal, suGoal: req.user.suGoal, soGoal: req.user.soGoal,
                     water: req.body.water, sodium: req.body.sodium, sugar: req.body.sugar, date:date});
