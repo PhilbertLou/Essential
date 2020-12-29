@@ -43,7 +43,8 @@ var userModel = new Schema({
         default: null
     },
     trackedDate: {
-        type: Date,
+        //FIND A WAY TO USE THEIR TIMEZONE
+        type: String,
         default: null
     },
     currentDay: {
@@ -52,17 +53,17 @@ var userModel = new Schema({
     }
   });
 
-userModel.pre('save', async function(next){
-    try{
-        const salt = await bcrypt.genSalt(10);
-        console.log('here!')
-        const hashedpass = await bcrypt.hash(this.password, salt);
-        this.password = hashedpass;
-        next();
-    }catch(err){
-        next(err);
-    }
-});
+// userModel.pre('save', async function(next){
+//     try{
+//         const salt = await bcrypt.genSalt(10);
+//         // console.log('here!')
+//         const hashedpass = await bcrypt.hash(this.password, salt);
+//         this.password = hashedpass;
+//         next();
+//     }catch(err){
+//         next(err);
+//     }
+// });
 
 userModel.methods.comparePassword = function(password,cb){
     bcrypt.compare(password, this.password, (err,isMatch)=>{

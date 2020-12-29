@@ -1,6 +1,6 @@
 var day = require('../models/day');
 var user = require('../models/user');
-// const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 // const session = require("express-session");
@@ -28,17 +28,21 @@ exports.mkaccpost = async function(req, res) {
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const doesExist = await user.findOne({username: req.body.username})
+        const doesExist = await user.findOne({username: req.body.username});
         if(doesExist){
             res.status(400).send({message:"Username taken"});
             return;
         }
-        const password = req.body.password;
+        var password = req.body.password;
         const name = req.body.name;
         const username = req.body.username;
         const watergoal = req.body.watergoal;
         const sodiumgoal = req.body.sodiumgoal;
         const sugargoal = req.body.sugargoal;
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedpass = await bcrypt.hash(password, salt);
+        password = hashedpass;
 
         //save model here
         var userinstance = new user({ name: name, username:username, password:password, wGoal: watergoal,
@@ -54,7 +58,7 @@ exports.mkaccpost = async function(req, res) {
         });
 
     }
-    catch{
+    catch(err){
         res.status(400).send({message:"An Error Occured"});
         return;
     }
@@ -86,6 +90,7 @@ exports.chinfoget = async function(req, res) {
 
 exports.chinfopost = function(req, res) {
     res.send('NOT IMPLEMENTED: Changing info POST');
+    //if goals are changed, make sure you change it for that specific day too
 };
 
 exports.previous = function(req, res) {

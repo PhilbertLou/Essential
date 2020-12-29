@@ -18,17 +18,23 @@ var dayModel = new Schema({
     
     water:{
         type: Number,
-        default: 0
+        default: 0,
+        min: [0, 'value cannot be nonnegative'],
     },
     sugar: {
         type: Number,
-        default: 0
+        default: 0,
+        min: [0, 'value cannot be nonnegative'],
     },
     sodium: {
         type: Number,
-        default: 0
+        default: 0,
+        min: [0, 'value cannot be nonnegative'],
     },
-    date: Date
+    date: {
+        type: String,
+        default: ""
+    }
   });
 
   module.exports = mongoose.model('day', dayModel);

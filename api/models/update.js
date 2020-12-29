@@ -14,7 +14,7 @@ var updateModel = new Schema({
         type: Number,
         default: 0
     },
-    date: Date
+    time: String
   });
 
   module.exports = mongoose.model('update', updateModel);
