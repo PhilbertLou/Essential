@@ -53,7 +53,7 @@ exports.addInfo = async function(req, res) {
                 return;
             })
 
-            currentuser.updates.push(updateModel);
+            currentuser.currentDay.updates.push(updateModel);
 
             await currentuser.save((err)=>{
                 if(err){
@@ -98,7 +98,7 @@ exports.addInfo = async function(req, res) {
                     return;
                 })
 
-                currentuser.updates.push(updateModel);
+                currentuser.currentDay.updates.push(updateModel);
 
                 await currentuser.save((err)=>{
                     if(err){
@@ -129,7 +129,7 @@ exports.addInfo = async function(req, res) {
                     //res.status(200).send({message:"Tracked!"});
                     return;
                 })
-                currentuser.updates.push(updateModel);
+                currentuser.currentDay.updates.push(updateModel);
 
                 currentuser.currentDay.water = newwater;
                 currentuser.currentDay.sodium = newsodium;

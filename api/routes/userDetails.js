@@ -13,22 +13,26 @@ var uC = require('../controllers/userController');
 //Add Routes
 router.get('/homepage', ensureAuthenticated, uC.index);
 
-router.get('/login', checkNotAuthenticated, uC.loginget);
+router.get('/login', checkNotAuthenticated, uC.loginget); //can comment out after when doing frontend
 router.post('/login', checkNotAuthenticated, uC.loginpost);
 
-router.post('/logout', checkNotAuthenticated, uC.logout);
+router.post('/logout', ensureAuthenticated, uC.logout);
 
-router.get('/makeaccount', checkNotAuthenticated, uC.mkaccget);
+// router.get('/makeaccount', checkNotAuthenticated, uC.mkaccget);
 router.post('/makeaccount', checkNotAuthenticated, body('watergoal').isFloat({ min: 0 }), body('sodiumgoal').isFloat({ min: 0 }), 
 body('sugargoal').isFloat({ min: 0 }), body('username').notEmpty(), 
-body('name').notEmpty(), body('password').isLength({ min: 8 }),uC.mkaccpost);
+body('name').notEmpty(), body('password1').isLength({ min: 8 }), uC.mkaccpost);
 
-router.get('/changeinfo', ensureAuthenticated, uC.chinfoget);
-router.post('/changeinfo', ensureAuthenticated, uC.chinfopost);
+// router.get('/changeinfo', ensureAuthenticated, uC.chinfoget);
+router.post('/changegoals', ensureAuthenticated, body('newwatergoal').isFloat({ min: 0 }), body('newsodiumgoal').isFloat({ min: 0 }), 
+body('newsugargoal').isFloat({ min: 0 }), uC.chgoalspost);
+router.post('/changepass', ensureAuthenticated, body('password1').isLength({ min: 8 }), uC.chpasspost);
 
-router.get('/previousdays', ensureAuthenticated, uC.previous);
+router.get('/previousdays1', ensureAuthenticated, uC.previous1);
 
-router.get('/updates', ensureAuthenticated, uC.updates);
+router.get('/previousdays2', ensureAuthenticated, uC.previous2);
+
+// router.get('/updates', ensureAuthenticated, uC.updates);
 
 
 module.exports = router;

@@ -12,14 +12,54 @@ mongoose.set('useCreateIndex', true);
 
 //Change redirects to your own success/fail method you make yourself
 
-exports.index = function(req, res) {
+exports.index = async function(req, res) {
     // res.send('NOT IMPLEMENTED: Homepage GET');
-    res.send('Hi ' + req.user.name);
+    // Prob dont need to send everything, may be too big
+    // res.send(req.user);
+    var currentuser = await user.findOne({ username: req.user.username });
+    var today = new Date();
+    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    
+    if(req.user.trackedDate === "" || req.user.trackedDate !== date){
+        if(req.user.trackedDate !== date){
+            currentuser.previousDays.push(currentuser.currentDay);
+        }
+
+        var todayModel = new day({wGoal: req.user.wGoal, suGoal: req.user.suGoal, soGoal: req.user.soGoal, date:date});
+        await todayModel.save((err)=>{
+            if(err){
+                res.status(400).send({message:"Error"});
+                return;
+            }
+            //res.status(200).send({message:"Tracked!"});
+            // return;
+            // console.log('HERE1')
+        })
+    
+        currentuser.currentDay = todayModel;
+        currentuser.trackedDate = date;
+    
+        await currentuser.save((err)=>{
+            if(err){
+                res.status(400).send({message:"Error updating info"});
+                return;
+            }
+            // res.status(200).send({message:"Tracked!"});
+            // return;
+            // console.log('HERE1')
+        })
+    }
+
+    // console.log(currentuser.currentDay);
+    res.send({date: currentuser.trackedDate, currentDay: currentuser.currentDay, name: currentuser.name});
+    // console.log('HERE2')
+    // wGoal: req.user.wGoal, soGoal: req.user.soGoal, suGoal: req.user.suGoal
 };
 
-exports.mkaccget = function(req, res) {
-    res.send('NOT IMPLEMENTED: Making account GET');
-};
+
+// exports.mkaccget = function(req, res) {
+//     res.send('NOT IMPLEMENTED: Making account GET');
+// };
 
 exports.mkaccpost = async function(req, res) {
     try{
@@ -33,7 +73,13 @@ exports.mkaccpost = async function(req, res) {
             res.status(400).send({message:"Username taken"});
             return;
         }
-        var password = req.body.password;
+
+        if(req.body.password1 !== req.body.password2){
+            res.status(400).send({message:"Passwords do not macth"});
+            return;
+        }   
+
+        var password = req.body.password1;
         const name = req.body.name;
         const username = req.body.username;
         const watergoal = req.body.watergoal;
@@ -64,6 +110,7 @@ exports.mkaccpost = async function(req, res) {
     }
 };
 
+//comment out later
 exports.loginget = function(req, res) {
     res.send('NOT IMPLEMENTED: Login GET');
 };
@@ -84,19 +131,81 @@ exports.logout = function(req, res) {
     res.redirect('login');
 };
 
-exports.chinfoget = async function(req, res) {
-    res.send('NOT IMPLEMENTED: Changing info GET');
-};
+// exports.chinfoget = async function(req, res) {
+//     res.send('NOT IMPLEMENTED: Changing info GET');
+// };
 
-exports.chinfopost = function(req, res) {
-    res.send('NOT IMPLEMENTED: Changing info POST');
+exports.chgoalspost = async function(req, res) {
+    // res.send('NOT IMPLEMENTED: Changing info POST');
     //if goals are changed, make sure you change it for that specific day too
+    const errors = await validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    var currentuser = await user.findOne({ username: req.user.username });
+    currentuser.wGoal = req.body.newwatergoal;
+    currentuser.soGoal = req.body.newsodiumgoal;
+    currentuser.suGoal = req.body.newsugargoal;
+
+    currentuser.currentDay.wGoal = req.body.newwatergoal;
+    currentuser.currentDay.soGoal = req.body.newsodiumgoal;
+    currentuser.currentDay.suGoal = req.body.newsugargoal;
+
+    await currentuser.save((err)=>{
+        if(err){
+            res.status(400).send({message:"Error updating info"});
+            return;
+        }
+    })
+    res.status(200).send({message:"Updated"});
+    return;
 };
 
-exports.previous = function(req, res) {
+exports.chpasspost = async function(req, res) {
+    // res.send('NOT IMPLEMENTED: Changing info POST');
+    
+    const errors = await validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    if(req.body.password1 !== req.body.password2){
+        res.status(400).send({message:"Passwords do not match"});
+        return;
+    }   
+
+    var currentuser = await user.findOne({ username: req.user.username });
+
+    var password = req.body.password1;
+    const salt = await bcrypt.genSalt(10);
+    const hashedpass = await bcrypt.hash(password, salt);
+    password = hashedpass;
+
+    currentuser.password = password;
+
+    await currentuser.save((err) =>{
+        if(err){
+            res.status(400).send({message:"Error updating info"});
+            return;
+        }
+    })
+
+    res.status(200).send({message: "Password changed"});
+};
+
+//Option 1
+exports.previous1 = function(req, res) {
+    //res.send('NOT IMPLEMENTED: Getting previous days info');
+    res.send(req.user.previousDays);
+};
+
+//option 2
+exports.previous2 = function(req, res) {
     res.send('NOT IMPLEMENTED: Getting previous days info');
 };
 
-exports.updates = function(req, res) {
-    res.send('NOT IMPLEMENTED: Getting previous updates for the day');
-};
+
+// exports.updates = function(req, res) {
+//     res.send('NOT IMPLEMENTED: Getting previous updates for the day');
+// };

@@ -34,6 +34,10 @@ var dayModel = new Schema({
     date: {
         type: String,
         default: ""
+    },
+    updates: {
+        type: [update.schema],
+        default: null
     }
   });
 
