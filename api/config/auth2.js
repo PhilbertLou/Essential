@@ -1,3 +1,4 @@
+//Ensures that user is NOT logged in
 module.exports = {
     checkNotAuthenticated: function(req, res, next){
         if(!req.isAuthenticated()){

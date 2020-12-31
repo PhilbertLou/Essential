@@ -1,7 +1,9 @@
+//Requiring necessary modules
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var update = require('./update');
 
+//Setting a key for each necessary thing that needs to be tracked
 var dayModel = new Schema({
     wGoal: {
         type: Number,

@@ -1,3 +1,4 @@
+//Requiring necessary modules
 var day = require('../models/day');
 var user = require('../models/user');
 const bcrypt = require("bcrypt");
@@ -8,21 +9,20 @@ const { body, validationResult } = require('express-validator');
 var mongoose = require('mongoose');
 mongoose.set('useCreateIndex', true);
 
-// const { ensureAuthenticated } = require('../config/auth');
-
 //Change redirects to your own success/fail method you make yourself
 
 //TDates shouldnt overlap, but maybe add something to prevent duplicate dates or make it modify the same date doc
+
+//Sends back the current day's info to the user
 exports.index = async function(req, res) {
-    // res.send('NOT IMPLEMENTED: Homepage GET');
-    // Prob dont need to send everything, may be too big
-    // res.send(req.user);
     var currentuser = await user.findOne({ username: req.user.username });
     var today = new Date();
     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     
+    //If the current day is not the tracked date, a fresh day will be made 
     if(req.user.trackedDate === null || req.user.trackedDate !== date){
         if(req.user.trackedDate !== date && req.user.trackedDate !== null){
+            //Actual day object is being changed and saved so it can be accessed easier from its own cluster
             var prevday = await day.findOne({ _id: currentuser.currentDay._id });
             prevday.wGoal = currentuser.currentDay.wGoal;
             prevday.suGoal = currentuser.currentDay.suGoal;
@@ -42,20 +42,15 @@ exports.index = async function(req, res) {
                 }
                 return;
             })
-
-            // currentuser.previousDays.push(currentuser.currentDay);
             currentuser.previousDays.push(currentuser.currentDay.date);
         }
-
+    
         var todayModel = new day({wGoal: req.user.wGoal, suGoal: req.user.suGoal, soGoal: req.user.soGoal, date:date});
         await todayModel.save((err)=>{
             if(err){
                 res.status(400).send({message:"Error"});
                 return;
             }
-            //res.status(200).send({message:"Tracked!"});
-            // return;
-            // console.log('HERE1')
         })
     
         currentuser.currentDay = todayModel;
@@ -66,17 +61,12 @@ exports.index = async function(req, res) {
                 res.status(400).send({message:"Error updating info"});
                 return;
             }
-            // res.status(200).send({message:"Tracked!"});
-            // return;
-            // console.log('HERE1')
         })
     }
 
     // console.log(currentuser.currentDay);
     res.send({date: currentuser.trackedDate, currentDay: currentuser.currentDay, name: currentuser.name});
     return;
-    // console.log('HERE2')
-    // wGoal: req.user.wGoal, soGoal: req.user.soGoal, suGoal: req.user.suGoal
 };
 
 
@@ -84,19 +74,23 @@ exports.index = async function(req, res) {
 //     res.send('NOT IMPLEMENTED: Making account GET');
 // };
 
+//Makes an account
 exports.mkaccpost = async function(req, res) {
     try{
+        //Checking the validation results first before anything
         const errors = await validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
 
+        //Checking if the username is already registered
         const doesExist = await user.findOne({username: req.body.username});
         if(doesExist){
             res.status(400).send({message:"Username taken"});
             return;
         }
 
+        //Making sure that the passwords match
         if(req.body.password1 !== req.body.password2){
             res.status(400).send({message:"Passwords do not macth"});
             return;
@@ -109,6 +103,7 @@ exports.mkaccpost = async function(req, res) {
         const sodiumgoal = req.body.sodiumgoal;
         const sugargoal = req.body.sugargoal;
 
+        //Encrypting the password
         const salt = await bcrypt.genSalt(10);
         const hashedpass = await bcrypt.hash(password, salt);
         password = hashedpass;
@@ -138,16 +133,17 @@ exports.loginget = function(req, res) {
     res.send('NOT IMPLEMENTED: Login GET');
 };
 
+//Using passport to authenticate the user
 exports.loginpost = function(req, res, next) {
     //res.send('NOT IMPLEMENTED: Login POST');
     passport.authenticate('local', {
         successRedirect: 'homepage',
-        failureRedirect: 'login',
-        failureFlash: true
+        failureRedirect: 'login'
     }) (req, res, next);
     // res.send({message:'here'});
 };
 
+//Logging out function
 exports.logout = function(req, res) {
     //res.send('NOT IMPLEMENTED: Logout POST');
     req.logout();
@@ -158,14 +154,15 @@ exports.logout = function(req, res) {
 //     res.send('NOT IMPLEMENTED: Changing info GET');
 // };
 
+//Changes the daily goals
 exports.chgoalspost = async function(req, res) {
-    // res.send('NOT IMPLEMENTED: Changing info POST');
     //if goals are changed, make sure you change it for that specific day too
     const errors = await validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
 
+    //Changes the goal for the user and the goal for the current day
     var currentuser = await user.findOne({ username: req.user.username });
     currentuser.wGoal = req.body.newwatergoal;
     currentuser.soGoal = req.body.newsodiumgoal;
@@ -185,6 +182,7 @@ exports.chgoalspost = async function(req, res) {
     return;
 };
 
+//Changes the password, implemented similarly to the mkaccpost method
 exports.chpasspost = async function(req, res) {
     // res.send('NOT IMPLEMENTED: Changing info POST');
     
@@ -217,14 +215,15 @@ exports.chpasspost = async function(req, res) {
     res.status(200).send({message: "Password changed"});
 };
 
-//Option 1
+//Option 1 (not used)
 exports.previous1 = function(req, res) {
     //res.send('NOT IMPLEMENTED: Getting previous days info');
     res.send(req.user.previousDays);
 };
 
-//option 2
+//option 2 (should be more lightweight)
 exports.previous2 = async function(req, res) {
+    //If there is a URL param, itll return info for that specific date
     if(req.params.date){
         try{   
             var wantday = await day.findOne( {date: req.params.date} );
@@ -239,6 +238,8 @@ exports.previous2 = async function(req, res) {
             return;
         }
     }
+
+    //Otherwise, a list of all previous dates are sent back
     try{
         var currentuser = await user.findOne({ username: req.user.username });
         res.send(currentuser.previousDays)
@@ -250,6 +251,7 @@ exports.previous2 = async function(req, res) {
 
 };
 
+//This part has been combined with the part above
 // //option 2 pt 2
 // exports.previous2pt2 = async function(req, res){
 //     try{   

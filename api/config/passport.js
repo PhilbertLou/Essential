@@ -1,3 +1,4 @@
+//Requiring necessary modules
 const mongoose = require('mongoose');
 // const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
@@ -12,6 +13,7 @@ const user = require('../models/user');
 // db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 // mongoose.Promise = global.Promise;
 
+//Setting up a new local strategy to use to vauthenticate users
 module.exports = function(passport){
     passport.use(
         new LocalStrategy({ username: 'username'}, (username, password, done) => {
@@ -34,6 +36,8 @@ module.exports = function(passport){
             .catch(err => console.log(err));
         })
     );
+
+    //Serialization for sessions
     passport.serializeUser((user, done) => {
         done(null, user.id);
       });

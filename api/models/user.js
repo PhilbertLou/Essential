@@ -1,10 +1,12 @@
+//Requiring necessary modules
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 var Schema = mongoose.Schema;
 var uniqueValidator = require('mongoose-unique-validator');
 var day = require('./day');
-var update = require('./update');
+// var update = require('./update');
 
+//Setting a key for each necessary thing that needs to be tracked
 var userModel = new Schema({
     name: {
         type: String,
@@ -57,18 +59,7 @@ var userModel = new Schema({
     }
   });
 
-// userModel.pre('save', async function(next){
-//     try{
-//         const salt = await bcrypt.genSalt(10);
-//         // console.log('here!')
-//         const hashedpass = await bcrypt.hash(this.password, salt);
-//         this.password = hashedpass;
-//         next();
-//     }catch(err){
-//         next(err);
-//     }
-// });
-
+//Setting up a compare function for plaintext password and a encrypted version
 userModel.methods.comparePassword = function(password,cb){
     bcrypt.compare(password, this.password, (err,isMatch)=>{
         if (err)

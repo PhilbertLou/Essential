@@ -1,16 +1,14 @@
+//Requiring necessary modules
 var express = require('express');
 var router = express.Router();
 const { body, validationResult } = require('express-validator');
 const { ensureAuthenticated } = require('../config/auth');
 const { checkNotAuthenticated } = require('../config/auth2');
 
-//body('username').isLength({ min: 1 }), body('password').isLength({ min: 8 }), body('wGoal').isLength({ min: 0 }), 
-//body('soGoal').isLength({ min: 0 }), body('suGoal').isLength({ min: 0 }), 
-
 //Require controllers here
 var uC = require('../controllers/userController');
 
-//Add Routes
+//Added necessary routes
 router.get('/homepage', ensureAuthenticated, uC.index);
 
 router.get('/login', checkNotAuthenticated, uC.loginget); //can comment out after when doing frontend

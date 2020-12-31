@@ -1,6 +1,8 @@
+//Requiring necessary modules
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+//Setting a key for each necessary thing that needs to be tracked
 var updateModel = new Schema({
     water:{
         type: Number,
