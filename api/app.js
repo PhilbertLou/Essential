@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const cors = require('cors');
 require('dotenv').config();
 
 //Setting up necessary server variables
@@ -28,6 +29,11 @@ mongoose.Promise = global.Promise;
 //   })
 
 //Using middleware
+app.use(cors({
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200
+}));
+
 app.use(session({
   secret: process.env.SECRET,
   saveUninitialized: false,
@@ -41,8 +47,6 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use('/today', dailyRouter);
 app.use('/user', usersRouter);
-
-// app.use(cors())
 
 //Listening on defined port
 app.listen(port, () => {
