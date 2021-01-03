@@ -4,6 +4,7 @@ module.exports = {
         if(!req.isAuthenticated()){
             return next();
         }
-        res.redirect('/user/homepage');
+        // res.redirect('/user/homepage');
+        res.status(400).send({message:'You cannot do that while logged in'});
     }
 }

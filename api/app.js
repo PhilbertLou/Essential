@@ -23,9 +23,9 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 mongoose.Promise = global.Promise;
 
 //Default page
-app.get('/', (req, res) => {
-    res.send('HealthApp Default')
-  })
+// app.get('/', (req, res) => {
+//     res.send('HealthApp Default')
+//   })
 
 //Using middleware
 app.use(session({

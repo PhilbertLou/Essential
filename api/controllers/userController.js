@@ -65,7 +65,7 @@ exports.index = async function(req, res) {
     }
 
     // console.log(currentuser.currentDay);
-    res.send({date: currentuser.trackedDate, currentDay: currentuser.currentDay, name: currentuser.name});
+    res.status(200).send({date: currentuser.trackedDate, currentDay: currentuser.currentDay, name: currentuser.name});
     return;
 };
 
@@ -80,7 +80,7 @@ exports.mkaccpost = async function(req, res) {
         //Checking the validation results first before anything
         const errors = await validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            return res.status(400).json({ message: errors.array() });
         }
 
         //Checking if the username is already registered
@@ -129,16 +129,24 @@ exports.mkaccpost = async function(req, res) {
 };
 
 //comment out later
-exports.loginget = function(req, res) {
-    res.send('NOT IMPLEMENTED: Login GET');
-};
+// exports.loginget = function(req, res) {
+//     res.send('NOT IMPLEMENTED: Login GET');
+// };
 
 //Using passport to authenticate the user
 exports.loginpost = function(req, res, next) {
     //res.send('NOT IMPLEMENTED: Login POST');
-    passport.authenticate('local', {
-        successRedirect: 'homepage',
-        failureRedirect: 'login'
+    // passport.authenticate('local', {
+    //     successRedirect: 'homepage',
+    //     failureRedirect: 'login'
+    // }) (req, res, next);
+    passport.authenticate('local', function(err, user, info){
+        if (err) { return nexr(err); }
+        if(!user) {return res.status(400).send({message: 'Incorrect username or password'});}
+        req.logIn(user, function(err){
+            if (err) {return next(err);}
+            return res.status(200).send({message: 'Logged in!'});
+        })
     }) (req, res, next);
     // res.send({message:'here'});
 };
@@ -147,7 +155,8 @@ exports.loginpost = function(req, res, next) {
 exports.logout = function(req, res) {
     //res.send('NOT IMPLEMENTED: Logout POST');
     req.logout();
-    res.redirect('login');
+    // res.redirect('login');
+    res.status(200).send({message: 'Logged out'});
 };
 
 // exports.chinfoget = async function(req, res) {
@@ -218,7 +227,7 @@ exports.chpasspost = async function(req, res) {
 //Option 1 (not used)
 exports.previous1 = function(req, res) {
     //res.send('NOT IMPLEMENTED: Getting previous days info');
-    res.send(req.user.previousDays);
+    res.status(200).send(req.user.previousDays);
 };
 
 //option 2 (should be more lightweight)
@@ -242,7 +251,7 @@ exports.previous2 = async function(req, res) {
     //Otherwise, a list of all previous dates are sent back
     try{
         var currentuser = await user.findOne({ username: req.user.username });
-        res.send(currentuser.previousDays)
+        res.status(200).send(currentuser.previousDays)
         return;
     }catch{
         res.status(400).send({message:"Error getting previous days"});
