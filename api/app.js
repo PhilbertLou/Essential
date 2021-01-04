@@ -29,11 +29,6 @@ mongoose.Promise = global.Promise;
 //   })
 
 //Using middleware
-app.use(cors({
-  origin: 'http://localhost:3000',
-  optionsSuccessStatus: 200
-}));
-
 app.use(session({
   secret: process.env.SECRET,
   saveUninitialized: false,
@@ -42,6 +37,21 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  res.setHeader('Access-Control-Allow-Credentials', true)
+  next();
+});
+
+app.use(cors({
+  origin: ['http://localhost:3000', 'http://localhost:8080', 'http://localhost:3000/$/'],
+  methods: "GET,POST",
+  credentials: true,
+  optionsSuccessStatus: 200
+}));
+
 
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));

@@ -20,7 +20,7 @@ module.exports = function(passport){
             user.findOne( {username: username} )
             .then(user => {
                 if (!user){
-                    return done(null, false, {message: 'unregistered username'});
+                    return done(null, false, {message: 'Unregistered username'});
                 }
 
                 bcrypt.compare(password, user.password, (err, isMatch) =>{

@@ -14,7 +14,20 @@ exports.addInfo = async function(req, res) {
         //Makes sure that the elements passed in are vlaid
         const errors = await validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            var spot = errors.array()[0].param;
+            if(spot === "water"){
+                spot = " for Water"
+            }
+            else if(spot === "sugar"){
+                spot = " for Sugar"
+            }
+            else if(spot === "sodium"){
+                spot = " for Sodium"
+            }
+            else{
+                spot = "s"
+            }
+            return res.status(400).send({ message: "Invalid value" + spot });
         }
         
         //If theres no current tracked date for the user (this part should not run)

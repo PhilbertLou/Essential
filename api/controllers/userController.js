@@ -80,7 +80,29 @@ exports.mkaccpost = async function(req, res) {
         //Checking the validation results first before anything
         const errors = await validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ message: errors.array() });
+            var spot = errors.array()[0].param;
+            if (spot === "name"){
+                spot = " for Name"
+            }
+            else if(spot === "username"){
+                spot = " for Username"
+            }
+            else if(spot === "password1"){
+                spot = " for Password 1"
+            }
+            else if(spot === "watergoal"){
+                spot = " for Water Goal"
+            }
+            else if(spot === "sugargoal"){
+                spot = " for Sugar Goal"
+            }
+            else if(spot === "sodiumgoal"){
+                spot = " for Sodium Goal"
+            }
+            else{
+                spot = "s"
+            }
+            return res.status(400).json({ message: "Invalid value" + spot});
         }
 
         //Checking if the username is already registered
@@ -168,7 +190,20 @@ exports.chgoalspost = async function(req, res) {
     //if goals are changed, make sure you change it for that specific day too
     const errors = await validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        var spot = errors.array()[0].param;
+        if(spot === "newwatergoal"){
+            spot = " for Water Goal"
+        }
+        else if(spot === "newsugargoal"){
+            spot = " for Sugar Goal"
+        }
+        else if(spot === "newsodiumgoal"){
+            spot = " for Sodium Goal"
+        }
+        else{
+            spot = "s"
+        }
+        return res.status(400).send({ message: "Invalid value" + spot });
     }
 
     //Changes the goal for the user and the goal for the current day
@@ -197,7 +232,13 @@ exports.chpasspost = async function(req, res) {
     
     const errors = await validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        if(spot === "password1"){
+            spot = " for Password 1"
+        }
+        else{
+            spot = "s"
+        }
+        return res.status(400).send({ message: "Invalid value" + spot });
     }
 
     if(req.body.password1 !== req.body.password2){
