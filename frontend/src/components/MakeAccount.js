@@ -61,8 +61,8 @@ function MakeAccount(props){
 
         axios.post('http://localhost:8080/user/makeaccount/', newuser)
             .then(res => {
-                props.addmessage(res.data.message);
-                history.push("/login");
+                // props.addmessage(res.data.message);
+                history.push({pathname: "/login", message: "Account made!"})
             })
             .catch(err => {if (err.response){
                 setmessage(err.response.data.message);

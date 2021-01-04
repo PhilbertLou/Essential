@@ -23,19 +23,19 @@ var userModel = new Schema({
     },
     wGoal: {
         type: Number,
-        min: [250, 'please drink more water'],
+        min: [0, 'value must be nonnegative'],
         required: [true, 'please drink water'],
         default: 2000
     },
     soGoal: {
         type: Number,
-        min: [0, 'value cannot be nonnegative'],
+        min: [0, 'value must be nonnegative'],
         required: [true, 'please fill out your sodium goal'],
         default: 2300
     },
     suGoal: {
         type: Number,
-        min: [0, 'value cannot be nonnegative'],
+        min: [0, 'value must be nonnegative'],
         required: [true, 'please fill out your sugar goal'],
         default: 37
     },

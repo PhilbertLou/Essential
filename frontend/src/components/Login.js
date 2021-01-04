@@ -1,5 +1,5 @@
 import React ,{ useEffect, useState } from 'react';
-import { BrowserRouter, Route, Switch, Redirect, useHistory } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect, useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 function Login(props){
@@ -8,10 +8,18 @@ function Login(props){
     const [password, setpassword] = useState("philphil");
     const [message, setmessage] = useState("");
     const history = useHistory();
+    const location = useLocation();
 
-    // useEffect(() =>{
-    //     console.log(props);
-    // }, [])
+    useEffect(() =>{
+        try{
+            console.log('here')
+            console.log(location.message)
+            setmessage(location.message)
+        }
+        catch{
+            
+        }
+    }, [])
 
     function handleUNChange(e){
         setusername(e.target.value);
@@ -34,9 +42,9 @@ function Login(props){
 
         axios.post('http://localhost:8080/user/login/', user)
             .then(res => {
-                props.addmessage(res.data.message);
-                // props.changeStatus(true);
-                // history.push("/home");
+                // props.addmessage(res.data.message);
+                props.changeStatus(true);
+                history.push("/home");
             })
             .catch(err => {if (err.response){
                 setmessage(err.response.data.message);

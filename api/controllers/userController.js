@@ -18,6 +18,7 @@ exports.index = async function(req, res) {
     var currentuser = await user.findOne({ username: req.user.username });
     var today = new Date();
     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    var error;
     
     //If the current day is not the tracked date, a fresh day will be made 
     if(req.user.trackedDate === null || req.user.trackedDate !== date){
@@ -37,33 +38,46 @@ exports.index = async function(req, res) {
 
             await prevday.save((err) => {
                 if(err){
-                    res.status(400).send({message:"Total amounts today cannot be negative"});
+                    error = true;
                     return;
                 }
                 return;
             })
             currentuser.previousDays.push(currentuser.currentDay.date);
         }
-    
+        if(error){
+            res.status(400).send({message:"Total amounts today cannot be negative"});
+            return;
+        }
         var todayModel = new day({wGoal: req.user.wGoal, suGoal: req.user.suGoal, soGoal: req.user.soGoal, date:date});
         await todayModel.save((err)=>{
             if(err){
-                res.status(400).send({message:"Error"});
+                error = true;
                 return;
             }
         })
+        if(error){
+            res.status(400).send({message:"Error"});
+            return;
+        }
     
         currentuser.currentDay = todayModel;
         currentuser.trackedDate = date;
     
         await currentuser.save((err)=>{
             if(err){
-                res.status(400).send({message:"Error updating info"});
+                error = true;
                 return;
             }
         })
+
+        if(error){
+            res.status(400).send({message:"Error updating info"});
+            return;
+        }
     }
 
+    
     // console.log(currentuser.currentDay);
     res.status(200).send({date: currentuser.trackedDate, currentDay: currentuser.currentDay, name: currentuser.name});
     return;
@@ -76,6 +90,7 @@ exports.index = async function(req, res) {
 
 //Makes an account
 exports.mkaccpost = async function(req, res) {
+    var error;
     try{
         //Checking the validation results first before anything
         const errors = await validationResult(req);
@@ -188,6 +203,7 @@ exports.logout = function(req, res) {
 //Changes the daily goals
 exports.chgoalspost = async function(req, res) {
     //if goals are changed, make sure you change it for that specific day too
+    var error;
     const errors = await validationResult(req);
     if (!errors.isEmpty()) {
         var spot = errors.array()[0].param;
@@ -203,7 +219,8 @@ exports.chgoalspost = async function(req, res) {
         else{
             spot = "s"
         }
-        return res.status(400).send({ message: "Invalid value" + spot });
+        res.status(400).send({ message: "Invalid value" + spot });
+        return;
     }
 
     //Changes the goal for the user and the goal for the current day
@@ -218,20 +235,37 @@ exports.chgoalspost = async function(req, res) {
 
     await currentuser.save((err)=>{
         if(err){
-            res.status(400).send({message:"Error updating info"});
-            return;
+            error = true
         }
+        return;
     })
+    if(error){
+        res.status(400).send({message:"Error updating info"});
+        return;
+    }
     res.status(200).send({message:"Updated"});
     return;
 };
 
+function compareAsync(param1, param2) {
+    return new Promise(function(resolve, reject) {
+        bcrypt.compare(param1, param2, function(err, res) {
+            if (err) {
+                 reject(err);
+            } else {
+                 resolve(res);
+            }
+        });
+    });
+}
+
 //Changes the password, implemented similarly to the mkaccpost method
 exports.chpasspost = async function(req, res) {
     // res.send('NOT IMPLEMENTED: Changing info POST');
-    
+    var error;
     const errors = await validationResult(req);
     if (!errors.isEmpty()) {
+        var spot = errors.array()[0].param;
         if(spot === "password1"){
             spot = " for Password 1"
         }
@@ -239,6 +273,13 @@ exports.chpasspost = async function(req, res) {
             spot = "s"
         }
         return res.status(400).send({ message: "Invalid value" + spot });
+    }
+
+    const passequal = await compareAsync(req.body.password, req.user.password);
+    
+    if(!passequal){
+        res.status(400).send({message:"Current password is incorrect"});
+        return;
     }
 
     if(req.body.password1 !== req.body.password2){
@@ -257,12 +298,16 @@ exports.chpasspost = async function(req, res) {
 
     await currentuser.save((err) =>{
         if(err){
-            res.status(400).send({message:"Error updating info"});
+            error = true;
             return;
         }
     })
-
+    if(error){
+        res.status(400).send({message:"Error updating info"});
+        return;
+    }
     res.status(200).send({message: "Password changed"});
+    return;
 };
 
 //Option 1 (not used)

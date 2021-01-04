@@ -1,19 +1,23 @@
 // import logo from './logo.svg';
 import './App.css';
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect, useLocation } from 'react-router-dom';
 import Home from './components/Home';
 import Main from './components/Main';
 import Login from './components/Login';
 import Updates from './components/Updates';
 import MakeAccount from './components/MakeAccount';
 import ChangeInfo from './components/ChangeInfo';
+import PreviousDays from './components/PreviousDays';
+import SpecificDay from './components/SpecificDay';
 import axios from 'axios';
 
 function App() {
   axios.defaults.withCredentials = true;
-  const [ loggedin, setlog ] = useState(false);
+  const location = useLocation()
+  const [ loggedin, setlog ] = useState((location.pathname==="/login" || location.pathname==="/makeaccount")? false: true);
   const [ message, setmessage ] = useState("");
+  // const [ daypath, setdaypath ] = useState("");
 
   function checklog(status){
     setlog(status);
@@ -23,6 +27,19 @@ function App() {
     setmessage(m);
   }
 
+  useEffect(() =>{
+    //Give a second or so timeout for loading page - do this for all api calls
+    let isMounted = true;
+    axios.get('http://localhost:8080/user/homepage/')
+            .then(res => {
+                setlog(true);
+            })
+            .catch(err => {if (err.response){
+                setlog(false);
+            }})
+    return () => { isMounted = false };
+  }, [])
+
   // useEffect(() =>{
   //   axios.get('http://localhost:8080/user/homepage/')
   //           .then(res => {
@@ -31,17 +48,7 @@ function App() {
   //           .catch(err => {if (err.response){
   //               setlog(false);
   //           }})
-  // }, [])
-
-  useEffect(() =>{
-    axios.get('http://localhost:8080/user/homepage/')
-            .then(res => {
-                setlog(true);
-            })
-            .catch(err => {if (err.response){
-                setlog(false);
-            }})
-  }, [message])
+  // }, [message])
 
   const PrivateRoute = ({ component: Component, ...rest }) => {
     return (
@@ -83,6 +90,8 @@ function App() {
       {/* <Route path="/makeaccount" render={(props) => <MakeAccount changeStatus={checklog} addmessage={addmessage} {...props} />} /> */}
       <PublicRoute changeStatus={checklog} addmessage={addmessage} path="/makeaccount" component={MakeAccount} />
       <PrivateRoute changeStatus={checklog} addmessage={addmessage} path="/updates" component={Updates} />
+      <PrivateRoute changeStatus={checklog} addmessage={addmessage} path="/previousdays/:day" component={SpecificDay} />
+      <PrivateRoute changeStatus={checklog} addmessage={addmessage} path="/previousdays" component={PreviousDays} />
       <PrivateRoute changeStatus={checklog} addmessage={addmessage} path="/changeinfo" component={ChangeInfo} />
       {/* <Route path="/changeinfo" component={ChangeInfo} /> */}
       <Route component={Error} />
