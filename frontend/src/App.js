@@ -16,15 +16,9 @@ function App() {
   axios.defaults.withCredentials = true;
   const location = useLocation()
   const [ loggedin, setlog ] = useState((location.pathname==="/login" || location.pathname==="/makeaccount")? false: true);
-  const [ message, setmessage ] = useState("");
-  // const [ daypath, setdaypath ] = useState("");
 
   function checklog(status){
     setlog(status);
-  }
-
-  function addmessage(m){
-    setmessage(m);
   }
 
   useEffect(() =>{
@@ -39,16 +33,6 @@ function App() {
             }})
     return () => { isMounted = false };
   }, [])
-
-  // useEffect(() =>{
-  //   axios.get('http://localhost:8080/user/homepage/')
-  //           .then(res => {
-  //               setlog(true);
-  //           })
-  //           .catch(err => {if (err.response){
-  //               setlog(false);
-  //           }})
-  // }, [message])
 
   const PrivateRoute = ({ component: Component, ...rest }) => {
     return (
@@ -84,20 +68,16 @@ function App() {
     <main>
       <Switch>
       <Route path="/" component={Main} exact />
-      <PrivateRoute changeStatus={checklog} addmessage={addmessage} path="/home" component={Home} />
-      <PublicRoute changeStatus={checklog} addmessage={addmessage} path="/login" component={Login} />
-      {/* <Route path="/makeaccount" component={MakeAccount} /> */}
-      {/* <Route path="/makeaccount" render={(props) => <MakeAccount changeStatus={checklog} addmessage={addmessage} {...props} />} /> */}
-      <PublicRoute changeStatus={checklog} addmessage={addmessage} path="/makeaccount" component={MakeAccount} />
-      <PrivateRoute changeStatus={checklog} addmessage={addmessage} path="/updates" component={Updates} />
-      <PrivateRoute changeStatus={checklog} addmessage={addmessage} path="/previousdays/:day" component={SpecificDay} />
-      <PrivateRoute changeStatus={checklog} addmessage={addmessage} path="/previousdays" component={PreviousDays} />
-      <PrivateRoute changeStatus={checklog} addmessage={addmessage} path="/changeinfo" component={ChangeInfo} />
-      {/* <Route path="/changeinfo" component={ChangeInfo} /> */}
+      <PrivateRoute changeStatus={checklog} path="/home" component={Home} />
+      <PublicRoute changeStatus={checklog} path="/login" component={Login} />
+      <PublicRoute changeStatus={checklog} path="/makeaccount" component={MakeAccount} />
+      <PrivateRoute changeStatus={checklog} path="/updates" component={Updates} />
+      <PrivateRoute changeStatus={checklog} path="/previousdays/:day/:id" component={SpecificDay} />
+      <PrivateRoute changeStatus={checklog} path="/previousdays" component={PreviousDays} />
+      <PrivateRoute changeStatus={checklog} path="/changeinfo" component={ChangeInfo} />
       <Route component={Error} />
-      {/* maybe add a route for everything else thatll send do main */}
+      {/* maybe add a route for everything else thatll send to main */}
       </Switch>
-      <p>{message}</p>
     </main>
   );
 }

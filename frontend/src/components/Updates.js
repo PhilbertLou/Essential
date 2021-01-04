@@ -11,37 +11,16 @@ function Updates(props){
     const history = useHistory();
     
     useEffect(() =>{
-        // console.log("HERE");
         axios.get('http://localhost:8080/user/homepage/')
             .then(res => {
-                // console.log(res.data.currentDay.updates);
                 setupdates(res.data.currentDay.updates);
-                // props.addmessage(res.data.name);
             })
-            // .then(res=>{
-            //     if(updates){
-            //         test = updates.map(item => {
-            //         // console.log(item._id);
-            //         <UpdateItem key={item._id} item={item}/>
-            //         })
-            //     }
-            // })
-            // .then(res=>{
-            //     console.log(updates);
-            //     console.log(test);
-            // })
             .catch(err => {if (err.response){
                 setmessage(err.response.data.message);
             }})
-            
-            // console.log(updates);
-            // console.log(updateItems);
-            // console.log(props);
     }, [])
     
     function handleBack(e){
-        //check credientials, if its right then redirect them, may need to mark as authenticated?
-        //or just try and auth then redirect to login again and let app handle the rest
         e.preventDefault();
         console.log(`Form submitted:`);
 
@@ -49,8 +28,6 @@ function Updates(props){
     }
 
     function handleBac(e){
-        //check credientials, if its right then redirect them, may need to mark as authenticated?
-        //or just try and auth then redirect to login again and let app handle the rest
         e.preventDefault();
         console.log(updates);
         console.log(test);

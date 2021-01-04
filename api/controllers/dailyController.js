@@ -21,9 +21,9 @@ exports.addInfo = async function(req, res) {
             else if(spot === "sugar"){
                 spot = " for Sugar"
             }
-            else if(spot === "sodium"){
-                spot = " for Sodium"
-            }
+            // else if(spot === "sodium"){
+            //     spot = " for Sodium"
+            // }
             else{
                 spot = "s"
             }
@@ -39,8 +39,9 @@ exports.addInfo = async function(req, res) {
             var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
             //Makes and saves the day with the new values passed in
-            var todayModel = new day({wGoal: req.user.wGoal, suGoal: req.user.suGoal, soGoal: req.user.soGoal,
-                water: req.body.water, sodium: req.body.sodium, sugar: req.body.sugar, date:date});
+            // soGoal: req.user.soGoal, sodium: req.body.sodium,
+            var todayModel = new day({wGoal: req.user.wGoal, suGoal: req.user.suGoal, 
+                water: req.body.water, sugar: req.body.sugar, date:date});
 
             await todayModel.save((err)=>{
                 if(err){
@@ -59,7 +60,8 @@ exports.addInfo = async function(req, res) {
 
             //Makes an update object for us to refer back to in the future if we wanted to see past updates
             //COULD POTENTIALLY ADD A NOTE FIELD TOO
-            var updateModel = new update({water: req.body.water, sodium: req.body.sodium, sugar: req.body.sugar, time: time});
+            // sodium: req.body.sodium,
+            var updateModel = new update({water: req.body.water, sugar: req.body.sugar, time: time});
             await updateModel.save((err)=>{
                 if(err){
                     res.status(400).send({message:"Error updating info"});
@@ -94,10 +96,10 @@ exports.addInfo = async function(req, res) {
                 var prevday = await day.findOne({ _id: currentuser.currentDay._id });
                 prevday.wGoal = currentuser.currentDay.wGoal;
                 prevday.suGoal = currentuser.currentDay.suGoal;
-                prevday.soGoal = currentuser.currentDay.soGoal;
+                // prevday.soGoal = currentuser.currentDay.soGoal;
                 prevday.water = currentuser.currentDay.water;
                 prevday.sugar = currentuser.currentDay.sugar;
-                prevday.sodium = currentuser.currentDay.sodium;
+                // prevday.sodium = currentuser.currentDay.sodium;
 
                 currentuser.currentDay.updates.forEach(element => {
                     prevday.updates.push(element);
@@ -112,10 +114,11 @@ exports.addInfo = async function(req, res) {
                 })
 
                 // currentuser.previousDays.push(currentuser.currentDay);
-                currentuser.previousDays.push(currentuser.currentDay.date);
+                currentuser.previousDays.push({date: currentuser.currentDay.date, id: currentuser.currentDay._id});
                 
-                var todayModel = new day({wGoal: req.user.wGoal, suGoal: req.user.suGoal, soGoal: req.user.soGoal,
-                    water: req.body.water, sodium: req.body.sodium, sugar: req.body.sugar, date:date});
+                // soGoal: req.user.soGoal, sodium: req.body.sodium,
+                var todayModel = new day({wGoal: req.user.wGoal, suGoal: req.user.suGoal, 
+                    water: req.body.water, sugar: req.body.sugar, date:date});
     
                 await todayModel.save((err)=>{
                     if(err){
@@ -128,8 +131,9 @@ exports.addInfo = async function(req, res) {
 
                 currentuser.currentDay = todayModel;
                 currentuser.trackedDate = date;
-                
-                var updateModel = new update({water: req.body.water, sodium: req.body.sodium, sugar: req.body.sugar, time: time});
+
+                // sodium: req.body.sodium,
+                var updateModel = new update({water: req.body.water, sugar: req.body.sugar, time: time});
                 await updateModel.save((err)=>{
                     if(err){
                         res.status(400).send({message:"Error updating info"});
@@ -155,17 +159,19 @@ exports.addInfo = async function(req, res) {
                 // console.log("SAME DAY");
                 //Calculates new values to track
                 var newwater = currentuser.currentDay.water + req.body.water;
-                var newsodium = currentuser.currentDay.sodium + req.body.sodium;
+                // var newsodium = currentuser.currentDay.sodium + req.body.sodium;
                 var newsugar = currentuser.currentDay.sugar + req.body.sugar;
 
                 //Error if the values become negative
-                if(newwater < 0 || newsodium < 0 || newsugar < 0){
+                // newsodium < 0 ||
+                if(newwater < 0 || newsugar < 0){
                     res.status(400).send({message:"Updated values cannot be negative"});//can make it just 0 too
                     return;
                 }
 
                 //Creates new update model for the changes
-                var updateModel = new update({water: req.body.water, sodium: req.body.sodium, sugar: req.body.sugar, time: time});
+                // sodium: req.body.sodium,
+                var updateModel = new update({water: req.body.water, sugar: req.body.sugar, time: time});
                 await updateModel.save((err)=>{
                     if(err){
                         res.status(400).send({message:"Error updating info"});
@@ -178,7 +184,7 @@ exports.addInfo = async function(req, res) {
                 //Saves the info
                 currentuser.currentDay.updates.push(updateModel);
                 currentuser.currentDay.water = newwater;
-                currentuser.currentDay.sodium = newsodium;
+                // currentuser.currentDay.sodium = newsodium;
                 currentuser.currentDay.sugar = newsugar;
 
                 await currentuser.save((err)=>{

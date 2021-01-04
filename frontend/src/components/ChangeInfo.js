@@ -6,25 +6,17 @@ function ChangeInfo(props){
     axios.defaults.withCredentials = true;
     const [water, setwater] = useState(0);
     const [sugar, setsugar] = useState(0);
-    const [sodium, setsodium] = useState(0);
     const [password, setpassword] = useState("");
     const [password1, setpassword1] = useState("");
     const [password2, setpassword2] = useState("");
     const [message, setmessage] = useState("");
     const history = useHistory();
 
-    // useEffect(() =>{
-    //     console.log(props);
-    // }, [])
-
     function handleWChange(e){
         setwater(e.target.value);
     };
     function handleSUChange(e){
         setsugar(e.target.value);
-    };
-    function handleSOChange(e){
-        setsodium(e.target.value);
     };
     function handleP1Change(e){
         setpassword1(e.target.value);
@@ -36,8 +28,6 @@ function ChangeInfo(props){
         setpassword(e.target.value);
     };
     function handleBack(e){
-        //check credientials, if its right then redirect them, may need to mark as authenticated?
-        //or just try and auth then redirect to login again and let app handle the rest
         e.preventDefault();
         console.log(`Form submitted:`);
 
@@ -45,14 +35,11 @@ function ChangeInfo(props){
     }
 
     function handleGoals(e){
-        //check credientials, if its right then redirect them, may need to mark as authenticated?
-        //or just try and auth then redirect to login again and let app handle the rest
         e.preventDefault();
         console.log(`Form submitted:`);
 
         const newgoals = {
             newwatergoal: water,
-            newsodiumgoal: sodium,
             newsugargoal: sugar
         };
 
@@ -92,8 +79,6 @@ function ChangeInfo(props){
                 <input type="number" name="watergoal" value={water} placeholder="New Water Goal" onChange={handleWChange} />
                 <br />
                 <input type="number" name="sugargoal" value={sugar} placeholder="New Sugar Goal" onChange={handleSUChange} />
-                <br />
-                <input type="number" name="sodiumgoal" value={sodium} placeholder="New Sodium Goal" onChange={handleSOChange} />
                 <br />
                 <button type="submit">Submit</button>
                 {/* {message} */}

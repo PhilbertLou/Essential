@@ -8,8 +8,8 @@ const { ensureAuthenticated } = require('../config/auth');
 var dC = require('../controllers/dailyController');
 
 //Added neccessary routes 
-router.post('/addinfo', ensureAuthenticated, body('water').notEmpty(), body('sugar').notEmpty(), 
-                    body('sodium').notEmpty(), dC.addInfo);
+// body('sodium').notEmpty(),
+router.post('/addinfo', ensureAuthenticated, body('water').notEmpty(), body('sugar').notEmpty(), dC.addInfo);
 
 // router.post('/addwater', dC.addWater);
 

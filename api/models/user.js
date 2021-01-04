@@ -27,12 +27,12 @@ var userModel = new Schema({
         required: [true, 'please drink water'],
         default: 2000
     },
-    soGoal: {
-        type: Number,
-        min: [0, 'value must be nonnegative'],
-        required: [true, 'please fill out your sodium goal'],
-        default: 2300
-    },
+    // soGoal: {
+    //     type: Number,
+    //     min: [0, 'value must be nonnegative'],
+    //     required: [true, 'please fill out your sodium goal'],
+    //     default: 2300
+    // },
     suGoal: {
         type: Number,
         min: [0, 'value must be nonnegative'],
@@ -45,7 +45,8 @@ var userModel = new Schema({
     // },
     previousDays: {
         //In the future link previous days by _id and populate so youre not storing entire objects
-        type: [String],
+        // type: [String],
+        type: [JSON],
         default: null
     },
     trackedDate: {

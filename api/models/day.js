@@ -9,10 +9,10 @@ var dayModel = new Schema({
         type: Number,
         required: true
     },
-    soGoal: {
-        type: Number,
-        required: true
-    },
+    // soGoal: {
+    //     type: Number,
+    //     required: true
+    // },
     suGoal: {
         type: Number,
         required: true
@@ -28,11 +28,11 @@ var dayModel = new Schema({
         default: 0,
         min: [0, 'value cannot be nonnegative'],
     },
-    sodium: {
-        type: Number,
-        default: 0,
-        min: [0, 'value cannot be nonnegative'],
-    },
+    // sodium: {
+    //     type: Number,
+    //     default: 0,
+    //     min: [0, 'value cannot be nonnegative'],
+    // },
     date: {
         type: String,
         default: ""
@@ -40,7 +40,8 @@ var dayModel = new Schema({
     updates: {
         type: [update.schema],
         default: null
-    }
+    },
+    // uid: [Schema.Types.ObjectId]
   });
 
   module.exports = mongoose.model('day', dayModel);

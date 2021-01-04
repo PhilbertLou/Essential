@@ -12,10 +12,10 @@ var updateModel = new Schema({
         type: Number,
         default: 0
     },
-    sodium: {
-        type: Number,
-        default: 0
-    },
+    // sodium: {
+    //     type: Number,
+    //     default: 0
+    // },
     time: String
   });
 

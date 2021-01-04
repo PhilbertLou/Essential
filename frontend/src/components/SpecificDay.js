@@ -9,9 +9,7 @@ function SpecificDay(props) {
     const [date, setdate] = useState("");
     const [water, setwater] = useState(0);
     const [sugar, setsugar] = useState(0);
-    const [sodium, setsodium] = useState(0);
     const [wGoal, setwGoal] = useState(0);
-    const [soGoal, setsoGoal] = useState(0);
     const [suGoal, setsuGoal] = useState(0);
     const [updates, setupdates] = useState([]);
     var test;
@@ -27,9 +25,7 @@ function SpecificDay(props) {
                 setdate(res.data.date);
                 setwater(res.data.water);
                 setsugar(res.data.sugar);
-                setsodium(res.data.sodium);
                 setwGoal(res.data.wGoal);
-                setsoGoal(res.data.soGoal);
                 setsuGoal(res.data.suGoal);
                 setupdates(res.data.updates);
             })
@@ -39,8 +35,6 @@ function SpecificDay(props) {
     }, [])
 
     function handleBack(e){
-        //check credientials, if its right then redirect them, may need to mark as authenticated?
-        //or just try and auth then redirect to login again and let app handle the rest
         e.preventDefault();
         console.log(`Form submitted:`);
 
@@ -53,20 +47,15 @@ function SpecificDay(props) {
         }
     }
 
-
     return (
         <div>
             <p>{date}</p>
             <br/ >
             <p>{water}</p>
             <br/ >
-            <p>{sodium}</p>
-            <br/ >
             <p>{sugar}</p>
             <br/ >
             <p>{wGoal}</p>
-            <br/ >
-            <p>{soGoal}</p>
             <br/ >
             <p>{suGoal}</p>
             <br/ >

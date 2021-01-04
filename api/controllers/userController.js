@@ -27,10 +27,10 @@ exports.index = async function(req, res) {
             var prevday = await day.findOne({ _id: currentuser.currentDay._id });
             prevday.wGoal = currentuser.currentDay.wGoal;
             prevday.suGoal = currentuser.currentDay.suGoal;
-            prevday.soGoal = currentuser.currentDay.soGoal;
+            // prevday.soGoal = currentuser.currentDay.soGoal;
             prevday.water = currentuser.currentDay.water;
             prevday.sugar = currentuser.currentDay.sugar;
-            prevday.sodium = currentuser.currentDay.sodium;
+            // prevday.sodium = currentuser.currentDay.sodium;
 
             currentuser.currentDay.updates.forEach(element => {
                 prevday.updates.push(element);
@@ -43,13 +43,14 @@ exports.index = async function(req, res) {
                 }
                 return;
             })
-            currentuser.previousDays.push(currentuser.currentDay.date);
+            currentuser.previousDays.push({date: currentuser.currentDay.date, id: currentuser.currentDay._id});
         }
         if(error){
             res.status(400).send({message:"Total amounts today cannot be negative"});
             return;
         }
-        var todayModel = new day({wGoal: req.user.wGoal, suGoal: req.user.suGoal, soGoal: req.user.soGoal, date:date});
+        // soGoal: req.user.soGoal,
+        var todayModel = new day({wGoal: req.user.wGoal, suGoal: req.user.suGoal, date:date});
         await todayModel.save((err)=>{
             if(err){
                 error = true;
@@ -111,9 +112,9 @@ exports.mkaccpost = async function(req, res) {
             else if(spot === "sugargoal"){
                 spot = " for Sugar Goal"
             }
-            else if(spot === "sodiumgoal"){
-                spot = " for Sodium Goal"
-            }
+            // else if(spot === "sodiumgoal"){
+            //     spot = " for Sodium Goal"
+            // }
             else{
                 spot = "s"
             }
@@ -137,7 +138,7 @@ exports.mkaccpost = async function(req, res) {
         const name = req.body.name;
         const username = req.body.username;
         const watergoal = req.body.watergoal;
-        const sodiumgoal = req.body.sodiumgoal;
+        // const sodiumgoal = req.body.sodiumgoal;
         const sugargoal = req.body.sugargoal;
 
         //Encrypting the password
@@ -146,8 +147,9 @@ exports.mkaccpost = async function(req, res) {
         password = hashedpass;
 
         //save model here
+        // soGoal: sodiumgoal,
         var userinstance = new user({ name: name, username:username, password:password, wGoal: watergoal,
-            soGoal: sodiumgoal, suGoal: sugargoal});
+             suGoal: sugargoal});
         
         await userinstance.save(function (err) {
             if(err){
@@ -213,9 +215,9 @@ exports.chgoalspost = async function(req, res) {
         else if(spot === "newsugargoal"){
             spot = " for Sugar Goal"
         }
-        else if(spot === "newsodiumgoal"){
-            spot = " for Sodium Goal"
-        }
+        // else if(spot === "newsodiumgoal"){
+        //     spot = " for Sodium Goal"
+        // }
         else{
             spot = "s"
         }
@@ -226,11 +228,11 @@ exports.chgoalspost = async function(req, res) {
     //Changes the goal for the user and the goal for the current day
     var currentuser = await user.findOne({ username: req.user.username });
     currentuser.wGoal = req.body.newwatergoal;
-    currentuser.soGoal = req.body.newsodiumgoal;
+    // currentuser.soGoal = req.body.newsodiumgoal;
     currentuser.suGoal = req.body.newsugargoal;
 
     currentuser.currentDay.wGoal = req.body.newwatergoal;
-    currentuser.currentDay.soGoal = req.body.newsodiumgoal;
+    // currentuser.currentDay.soGoal = req.body.newsodiumgoal;
     currentuser.currentDay.suGoal = req.body.newsugargoal;
 
     await currentuser.save((err)=>{
@@ -319,9 +321,9 @@ exports.previous1 = function(req, res) {
 //option 2 (should be more lightweight)
 exports.previous2 = async function(req, res) {
     //If there is a URL param, itll return info for that specific date
-    if(req.params.date){
+    if(req.params.date && req.params.id){
         try{   
-            var wantday = await day.findOne( {date: req.params.date} );
+            var wantday = await day.findOne( {date: req.params.date, _id:req.params.id} );
             if(wantday){
                 res.status(200).json(wantday);
                 return;

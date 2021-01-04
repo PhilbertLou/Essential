@@ -30,8 +30,6 @@ function Login(props){
     };
 
     function handleSubmit(e){
-        //check credientials, if its right then redirect them, may need to mark as authenticated?
-        //or just try and auth then redirect to login again and let app handle the rest
         e.preventDefault();
         console.log(`Form submitted:`);
 
@@ -63,6 +61,7 @@ function Login(props){
                 <button type="submit">Submit</button>
                 {message}
             </form>
+            <button onClick={()=>history.push("/makeaccount")}>Make Account</button>
         </div>
     )
 }
