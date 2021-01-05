@@ -104,7 +104,7 @@ exports.mkaccpost = async function(req, res) {
                 spot = " for Username"
             }
             else if(spot === "password1"){
-                spot = " for Password 1"
+                spot = " for Password 1 (Reminder, password must be 8 characters minimum)"
             }
             else if(spot === "watergoal"){
                 spot = " for Water Goal"
@@ -269,7 +269,7 @@ exports.chpasspost = async function(req, res) {
     if (!errors.isEmpty()) {
         var spot = errors.array()[0].param;
         if(spot === "password1"){
-            spot = " for Password 1"
+            spot = " for Password 1 (Reminder, password must be 8 characters minimum)"
         }
         else{
             spot = "s"

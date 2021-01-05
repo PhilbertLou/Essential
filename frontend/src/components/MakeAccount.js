@@ -2,6 +2,7 @@ import { checkPropTypes } from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import axios from 'axios';
+import MakeAccountPage from './jsxcomponents/MakeAccountPage';
 
 function MakeAccount(props){
     axios.defaults.withCredentials = true;
@@ -38,6 +39,10 @@ function MakeAccount(props){
         setsugargoal(e.target.value);
     };
 
+    function handleBack(e){
+        history.push("/login");
+    };
+
     function handleSubmit(e){
         e.preventDefault();
         console.log(`Form submitted:`);
@@ -69,23 +74,23 @@ function MakeAccount(props){
 
     return (
         <div>
-            <form onSubmit={handleSubmit}>
-                <input type="text" name="name" value={name} placeholder="Name" onChange={handleNChange} />
-                <br />
-                <input type="text" name="username" value={username} placeholder="Username" onChange={handleUNChange} />
-                <br />
-                <input type="text" name="password1" value={password1} placeholder="Password" onChange={handleP1Change} />
-                <br />
-                <input type="text" name="password2" value={password2} placeholder="Retype Password" onChange={handleP2Change} />
-                <br />
-                <input type="number" name="watergoal" value={watergoal} placeholder="Water Goal" onChange={handleWChange} />
-                <br />
-                <input type="number" name="sugargoal" value={sugargoal} placeholder="Sugar Goal" onChange={handleSUChange} />
-                <br />
-                <button type="submit">Submit</button>
-                <button onClick={()=>history.push("/login")}>Make Account</button>
-                {message}
-            </form>
+            <MakeAccountPage
+                name={name}
+                username={username}
+                password1={password1}
+                password2={password2}
+                watergoal={watergoal}
+                sugargoal={sugargoal}
+                message={message}
+                handleNChange={handleNChange}
+                handleUNChange={handleUNChange}
+                handleP1Change={handleP1Change}
+                handleP2Change={handleP2Change}
+                handleWChange={handleWChange}
+                handleSUChange={handleSUChange}
+                handleSubmit={handleSubmit}
+                handleBack={handleBack}
+            />
         </div>
     )
 }

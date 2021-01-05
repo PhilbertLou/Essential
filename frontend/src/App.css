@@ -37,3 +37,23 @@
     text-align: left;
     float: left;
   }
+
+  .centertext{
+    text-align: center;
+  }
+
+  .centerdiv{
+    justify-content: center;
+  }
+
+  .updatecard{
+    max-width: 25rem;
+    min-width: 20rem;
+    /* max-width: 55vh;
+    min-width: 30vh; */
+    margin: auto;
+  }
+
+  .inlinevalue{
+    font-size:16px;
+  }

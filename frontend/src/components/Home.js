@@ -97,13 +97,13 @@ function Home(props){
     }
 
     function incrementwater() {
-        setwater(prevCount => prevCount + waternum);
-        setaddedwater(prevCount => prevCount + waternum);
+        setwater(prevCount => prevCount + parseInt(waternum));
+        setaddedwater(prevCount => prevCount + parseInt(waternum));
     }
 
     function incrementsugar() {
-        setsugar(prevCount => prevCount + sugarnum);
-        setaddedsugar(prevCount => prevCount + sugarnum);
+        setsugar(prevCount => prevCount + parseInt(sugarnum));
+        setaddedsugar(prevCount => prevCount + parseInt(sugarnum));
     }
 
     function deincrementwater() {
@@ -146,31 +146,42 @@ function Home(props){
     function sugar10() {
         setsugarnum(10);
     }
+    // function handleWChange(e) {
+    //     if(e.target.value >=0){
+    //         setaddedwater(prevCount => prevCount + (e.target.value - water));
+    //         setdirectwater(e.target.value);
+    //         setwater(e.target.value);
+    //     }
+    //     else{
+    //         setaddedwater(0 - water);
+    //         setdirectwater(0);
+    //         setwater(0);
+    //         setmessage('Number cannot be less than zero, value will be set to 0');
+    //     }
+    // }
+    // function handleSUChange(e){
+    //     if(e.target.value >=0){
+    //         setaddedsugar(prevCount => prevCount + (e.target.value - sugar));
+    //         setdirectsugar(e.target.value);
+    //         setsugar(e.target.value);
+    //     }
+    //     else{
+    //         setaddedsugar(0 - sugar);
+    //         setdirectsugar(0);
+    //         setsugar(0);
+    //         setmessage('Number cannot be less than zero, value will be set to 0');
+    //     }
+    // }
+
     function handleWChange(e) {
-        if(e.target.value >=0){
-            setaddedwater(prevCount => prevCount + (e.target.value - water));
-            setdirectwater(e.target.value);
-            setwater(e.target.value);
-        }
-        else{
-            setaddedwater(0 - water);
-            setdirectwater(0);
-            setwater(0);
-            setmessage('Number cannot be less than zero, value will be set to 0');
-        }
+        setwaternum(e.target.value);
+        setdirectwater(e.target.value);
+        // setwaternum(10);
     }
     function handleSUChange(e){
-        if(e.target.value >=0){
-            setaddedsugar(prevCount => prevCount + (e.target.value - sugar));
-            setdirectsugar(e.target.value);
-            setsugar(e.target.value);
-        }
-        else{
-            setaddedsugar(0 - sugar);
-            setdirectsugar(0);
-            setsugar(0);
-            setmessage('Number cannot be less than zero, value will be set to 0');
-        }
+        // setsugarnum(e.target.value);
+        setdirectsugar(e.target.value);
+        setsugarnum(e.target.value);
     }
 
     return (
@@ -190,11 +201,13 @@ function Home(props){
             <button onClick={water10}>10</button>
             <button onClick={water50}>50</button>
             <button onClick={water100}>100</button>
-            <input type="number" name="directwater" value={directwater} placeholder="Set Water" onChange={handleWChange} />
+            {/* <input type="number" name="directwater" value={directwater} placeholder="Set Water" onChange={handleWChange} /> */}
+            <input type="number" name="directwater" value={directwater} placeholder="Custom Value" onChange={handleWChange} />
             <button onClick={sugar1}>1</button>
             <button onClick={sugar5}>5</button>
             <button onClick={sugar10}>10</button>
-            <input type="number" name="directsugar" value={directsugar} placeholder="Set Sugar" onChange={handleSUChange} />
+            {/* <input type="number" name="directsugar" value={directsugar} placeholder="Set Sugar" onChange={handleSUChange} /> */}
+            <input type="number" name="directsugar" value={directsugar} placeholder="Custom Value" onChange={handleSUChange} />
             <br />
             <button onClick={incrementwater}>+</button>
             <button onClick={deincrementwater}>-</button>

@@ -1,7 +1,8 @@
 import React ,{ useEffect, useState } from 'react';
 import { BrowserRouter, Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import axios from 'axios';
-import PreviousLink from "./PreviousLink"
+import PreviousLink from "./jsxcomponents/PreviousLink"
+import PreviousDaysPage from "./jsxcomponents/PreviousDaysPage"
 
 function PreviousDays(props){
     axios.defaults.withCredentials = true;
@@ -37,11 +38,9 @@ function PreviousDays(props){
     return (
         <div>
             {makeprevious()}
-            {test}
-            <br/ >
-            <form onSubmit={handleBack}>
-                <button type="submit">Go back</button>
-            </form>
+            <PreviousDaysPage 
+                test={test}
+            />
         </div>
     )
 }

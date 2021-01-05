@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Switch, Redirect, useHistory, Link , useLocation} from 'react-router-dom';
 import React ,{ useEffect, useState } from 'react';
 import axios from 'axios';
-import UpdateItem from "./UpdateItem";
+import UpdateItem from "./jsxcomponents/UpdateItem";
 
 function SpecificDay(props) {
     axios.defaults.withCredentials = true;

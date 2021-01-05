@@ -16,7 +16,6 @@ function LoginPage(props){
                 <div className="form-group">
                     <label for="username">Username:</label>
                     <input type="text" name="username" value={props.username} placeholder="Username" onChange={props.handleUNChange} class="form-control forminput" id="username" />
-                    {/* <input type="text" name="username" value={props.username} placeholder="Username" onChange={props.handleUNChange} /> */}
                 </div>
                 <div className="form-group">
                 <label for="password">Password:</label>
@@ -26,21 +25,9 @@ function LoginPage(props){
                 <div className="formbuttondiv">
                     <button type="submit" className="btn btn-dark formbutton">Submit</button>
                     <br /><br /><br />
-                    {/* <button className="btn btn-dark formbutton" onClick={props.handleMakeAccount}>Make Account</button> */}
                 </div>
             </form>
             <br /><br /><br /><br />
-            {/* {props.message} */}
-            {/* <form onSubmit={props.handleSubmit}>
-                <input type="text" name="username" value={props.username} placeholder="Username" onChange={props.handleUNChange} />
-                <br />
-                <input type="text" name="password" value={props.password} placeholder="Password" onChange={props.handlePChange} />
-                <br />
-                <button type="submit">Submit</button>
-                <br />
-                <button onClick={props.handleMakeAccount}>Make Account</button>
-                {props.message}
-            </form> */}
             </div>
         </div>
     )

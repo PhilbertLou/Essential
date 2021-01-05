@@ -1,6 +1,7 @@
 import React ,{ useEffect, useState } from 'react';
 import { BrowserRouter, Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import axios from 'axios';
+import ChangeInfoPage from './jsxcomponents/ChangeInfoPage';
 
 function ChangeInfo(props){
     axios.defaults.withCredentials = true;
@@ -81,28 +82,22 @@ function ChangeInfo(props){
 
     return (
         <div>
-            <form onSubmit={handleGoals}>
-                <input type="number" name="watergoal" value={water} placeholder="New Water Goal" onChange={handleWChange} />
-                <br />
-                <input type="number" name="sugargoal" value={sugar} placeholder="New Sugar Goal" onChange={handleSUChange} />
-                <br />
-                <button type="submit">Submit</button>
-                {/* {message} */}
-            </form>
-            <form onSubmit={handlePass}>
-                <input type="text" name="password" value={password} placeholder="Current Password" onChange={handlePChange} />
-                <br />
-                <input type="text" name="password1" value={password1} placeholder="New Password" onChange={handleP1Change} />
-                <br />
-                <input type="text" name="password2" value={password2} placeholder="Retype New Password" onChange={handleP2Change} />
-                <br />
-                <button type="submit">Submit</button>
-                {/* {message} */}
-            </form>
-            <form onSubmit={handleBack}>
-                <button type="submit">Go back</button>
-            </form>
-            {message}
+            <ChangeInfoPage 
+                handleWChange={handleWChange}
+                handleSUChange={handleSUChange}
+                handleGoals={handleGoals}
+                handlePass={handlePass}
+                handlePChange={handlePChange}
+                handleP1Change={handleP1Change}
+                handleP2Change={handleP2Change}
+                handleBack={handleBack}
+                water={water}
+                sugar={sugar}
+                password={password}
+                password1={password1}
+                password2={password2}
+                message={message}
+            />
         </div>
     )
 }
