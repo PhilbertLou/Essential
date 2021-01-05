@@ -31,7 +31,7 @@ function PreviousDays(props){
 
     function makeprevious(){
         if(days){
-            test = days.map(item => <PreviousLink key={item.id} item={item}/>)
+            test = days.slice(0).reverse().map(item => <PreviousLink key={item.id} item={item}/>)
         }
     }
 

@@ -31,7 +31,7 @@ function Updates(props){
 
     function makeupdate(){
         if(updates){
-            updatejsx = updates.map(item => <UpdateItem key={item._id} item={item}/>)
+            updatejsx = updates.slice(0).reverse().map(item => <UpdateItem key={item._id} item={item}/>)
         }
     }
 

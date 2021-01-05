@@ -6,54 +6,72 @@
     margin: 0 auto;
     min-height: 90vh;
   }
-  .title{
-      /* text-align: center; */
-  }
-
-  .formbox{
-    /* width: 30%;
-    height: 70%; */
+.title{
     /* text-align: center; */
-    /* outline: 1px solid #343a40; */
-    max-width: 400px;
-    min-width: 350px;
-  }
+}
 
-  .formbuttondiv{
-    /* text-align: center; */
-  }
+.formbox{
+  /* width: 30%;
+  height: 70%; */
+  /* text-align: center; */
+  /* outline: 1px solid #343a40; */
+  max-width: 400px;
+  min-width: 350px;
+}
 
-  .formbutton{
-    width: 200px;
-  }
+.formbuttondiv{
+  /* text-align: center; */
+}
 
-  /* .forminput{
-    width: 50%;
-    height: 50%;
-    margin: 0 auto;
-  } */
+.formbutton{
+  width: 200px;
+}
 
-  .formlabel{
-    text-align: left;
-    float: left;
-  }
+/* .forminput{
+  width: 50%;
+  height: 50%;
+  margin: 0 auto;
+} */
 
-  .centertext{
-    text-align: center;
-  }
+.formlabel{
+  text-align: left;
+  float: left;
+}
 
-  .centerdiv{
-    justify-content: center;
-  }
+.centertext{
+  text-align: center;
+}
 
-  .updatecard{
-    max-width: 25rem;
-    min-width: 20rem;
-    /* max-width: 55vh;
-    min-width: 30vh; */
-    margin: auto;
-  }
+.centerdiv{
+  justify-content: center;
+}
 
-  .inlinevalue{
-    font-size:16px;
-  }
+.centeritems{
+  align-items: center;
+}
+
+.updatecard{
+  max-width: 25rem;
+  min-width: 20rem;
+  /* max-width: 55vh;
+  min-width: 30vh; */
+  margin: auto;
+}
+
+.inlinevalue{
+  font-size:16px;
+}
+
+.mainpagetextbox{
+  /* margin-top: 20%; */
+  padding-top: 20vh;
+  padding-left: 20%;
+}
+
+.mainpageimagebox{
+  margin-top: 2%;
+}
+
+.buttonmargin{
+  margin-right:15px;
+}
