@@ -67,9 +67,15 @@ function ChangeInfo(props){
         axios.post('http://localhost:8080/user/changepass', pass)
             .then(res => {
                 setmessage(res.data.message);
+                setpassword("");
+                setpassword1("");
+                setpassword2("");
             })
             .catch(err => {if (err.response){
                 setmessage(err.response.data.message);
+                setpassword("");
+                setpassword1("");
+                setpassword2("");
             }})
     }
 

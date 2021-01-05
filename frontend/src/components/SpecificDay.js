@@ -19,7 +19,7 @@ function SpecificDay(props) {
     const location = useLocation();
 
     useEffect(() =>{
-        console.log(location.suffix);
+        // console.log(location.suffix);
         axios.get(`http://localhost:8080/user/previousdays/${location.suffix}`)
             .then(res => {
                 setdate(res.data.date);

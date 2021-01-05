@@ -29,8 +29,8 @@ function Updates(props){
 
     function handleBac(e){
         e.preventDefault();
-        console.log(updates);
-        console.log(test);
+        // console.log(updates);
+        // console.log(test);
 
     }
 

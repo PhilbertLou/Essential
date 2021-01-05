@@ -1,6 +1,7 @@
 import React ,{ useEffect, useState } from 'react';
 import { BrowserRouter, Route, Switch, Redirect, useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import LoginPage from './jsxcomponents/LoginPage';
 
 function Login(props){
     axios.defaults.withCredentials = true;
@@ -12,8 +13,6 @@ function Login(props){
 
     useEffect(() =>{
         try{
-            console.log('here')
-            console.log(location.message)
             setmessage(location.message)
         }
         catch{
@@ -28,6 +27,10 @@ function Login(props){
     function handlePChange(e){
         setpassword(e.target.value);
     };
+
+    function handleMakeAccount(e){
+        history.push("/makeaccount")
+    }
 
     function handleSubmit(e){
         e.preventDefault();
@@ -53,15 +56,15 @@ function Login(props){
 
     return (
         <div>
-            <form onSubmit={handleSubmit}>
-                <input type="text" name="username" value={username} placeholder="Username" onChange={handleUNChange} />
-                <br />
-                <input type="text" name="password" value={password} placeholder="Password" onChange={handlePChange} />
-                <br />
-                <button type="submit">Submit</button>
-                {message}
-            </form>
-            <button onClick={()=>history.push("/makeaccount")}>Make Account</button>
+            <LoginPage
+                handleSubmit={handleSubmit}
+                handleUNChange={handleUNChange}
+                handlePChange={handlePChange}
+                handleMakeAccount={handleMakeAccount}
+                username={username}
+                password={password}
+                message={message}
+            />
         </div>
     )
 }

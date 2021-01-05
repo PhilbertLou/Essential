@@ -1,0 +1,39 @@
+.center-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    min-height: 90vh;
+  }
+  .title{
+      /* text-align: center; */
+  }
+
+  .formbox{
+    /* width: 30%;
+    height: 70%; */
+    /* text-align: center; */
+    /* outline: 1px solid #343a40; */
+    max-width: 400px;
+    min-width: 350px;
+  }
+
+  .formbuttondiv{
+    /* text-align: center; */
+  }
+
+  .formbutton{
+    width: 200px;
+  }
+
+  /* .forminput{
+    width: 50%;
+    height: 50%;
+    margin: 0 auto;
+  } */
+
+  .formlabel{
+    text-align: left;
+    float: left;
+  }

@@ -10,7 +10,9 @@ import MakeAccount from './components/MakeAccount';
 import ChangeInfo from './components/ChangeInfo';
 import PreviousDays from './components/PreviousDays';
 import SpecificDay from './components/SpecificDay';
+import Navbar from './components/jsxcomponents/Navbar';
 import axios from 'axios';
+
 
 function App() {
   axios.defaults.withCredentials = true;
@@ -66,6 +68,7 @@ function App() {
 
   return (
     <main>
+      <Navbar />
       <Switch>
       <Route path="/" component={Main} exact />
       <PrivateRoute changeStatus={checklog} path="/home" component={Home} />

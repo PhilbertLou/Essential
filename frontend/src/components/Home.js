@@ -16,8 +16,8 @@ function Home(props){
     const [waternum, setwaternum] = useState(10);
     const [sugarnum, setsugarnum] = useState(1);
     const [message, setmessage] = useState("");
-    const [directwater, setdirectwater] = useState();
-    const [directsugar, setdirectsugar] = useState();
+    const [directwater, setdirectwater] = useState("");
+    const [directsugar, setdirectsugar] = useState("");
     const history = useHistory();
 
     useEffect(() =>{
@@ -82,7 +82,6 @@ function Home(props){
         const info = {
             water: addedwater,
             sugar: addedsugar,
-            sodium: 0
         }
         console.log(info.water)
         console.log(info.sugar)
@@ -112,12 +111,20 @@ function Home(props){
             setwater(prevCount => prevCount - waternum);
             setaddedwater(prevCount => prevCount - waternum);
         }
+        else{
+            setaddedwater(prevCount => prevCount - water);
+            setwater(0);
+        }
     }
 
     function deincrementsugar() {
         if (sugar-sugarnum >= 0){
             setsugar(prevCount => prevCount - sugarnum);
             setaddedsugar(prevCount => prevCount - sugarnum);
+        }
+        else{
+            setaddedsugar(prevCount => prevCount - sugar);
+            setsugar(0);
         }
     }
 
@@ -141,21 +148,27 @@ function Home(props){
     }
     function handleWChange(e) {
         if(e.target.value >=0){
+            setaddedwater(prevCount => prevCount + (e.target.value - water));
             setdirectwater(e.target.value);
             setwater(e.target.value);
-            setaddedwater(e.target.value - water);
         }
         else{
+            setaddedwater(0 - water);
+            setdirectwater(0);
+            setwater(0);
             setmessage('Number cannot be less than zero, value will be set to 0');
         }
     }
     function handleSUChange(e){
         if(e.target.value >=0){
+            setaddedsugar(prevCount => prevCount + (e.target.value - sugar));
             setdirectsugar(e.target.value);
             setsugar(e.target.value);
-            setaddedsugar(e.target.value - water);
         }
         else{
+            setaddedsugar(0 - sugar);
+            setdirectsugar(0);
+            setsugar(0);
             setmessage('Number cannot be less than zero, value will be set to 0');
         }
     }
