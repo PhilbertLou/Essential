@@ -26,8 +26,10 @@ function Home(props){
     const history = useHistory();
 
     useEffect(() =>{
+        console.log("here")
         let isMounted = true;
-        axios.get('http://localhost:8080/user/homepage/')
+        if(!loaded){
+            axios.get('http://localhost:8080/user/homepage/')
             .then(res => {
                 if (isMounted){
                     setname(res.data.name);
@@ -54,6 +56,7 @@ function Home(props){
                 setmessage(err.response.data.message);
                 setloaded(true);
             }})
+        }
             return () => { isMounted = false };
     }, [])
     

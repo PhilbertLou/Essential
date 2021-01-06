@@ -37,6 +37,7 @@ exports.addInfo = async function(req, res) {
             var today = new Date();
             var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
             var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            // const date = req.body.date;
 
             //Makes and saves the day with the new values passed in
             // soGoal: req.user.soGoal, sodium: req.body.sodium,
@@ -87,7 +88,8 @@ exports.addInfo = async function(req, res) {
             //Gets user and date
             var currentuser = await user.findOne({ username: req.user.username });
             var today = new Date();
-            var date = today.getFullYear() + '-' + (today.getMonth() + 3) + '-' + today.getDate();
+            var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+            // const date = req.body.date;
             var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
             var error;
 

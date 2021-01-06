@@ -48,7 +48,7 @@ function Login(props){
             .then(res => {
                 // props.addmessage(res.data.message);
                 props.changeStatus(true);
-                history.push("/home");
+                // history.push("/home");
             })
             .catch(err => {if (err.response){
                 setmessage(err.response.data.message);

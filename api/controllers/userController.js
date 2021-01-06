@@ -17,7 +17,8 @@ mongoose.set('useCreateIndex', true);
 exports.index = async function(req, res) {
     var currentuser = await user.findOne({ username: req.user.username });
     var today = new Date();
-    var date = today.getFullYear() + '-' + (today.getMonth() + 3) + '-' + today.getDate();
+    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    // const date = req.body.date;
     var error;
     
     //If the current day is not the tracked date, a fresh day will be made 
@@ -84,6 +85,14 @@ exports.index = async function(req, res) {
     return;
 };
 
+exports.logincheck = function(req,res){
+    // if(req.user){
+    //     res.status(200);
+    //     return;
+    // }
+    res.status(200).send({message: 'Logged in!'});
+    return;
+}
 
 // exports.mkaccget = function(req, res) {
 //     res.send('NOT IMPLEMENTED: Making account GET');

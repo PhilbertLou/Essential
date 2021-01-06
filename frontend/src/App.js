@@ -26,10 +26,9 @@ function App() {
   }
 
   useEffect(() =>{
-    console.log("appmounted")
     //Give a second or so timeout for loading page - do this for all api calls
     let isMounted = true;
-    axios.get('http://localhost:8080/user/homepage/')
+    axios.get('http://localhost:8080/user/logincheck')
             .then(res => {
                 setlog(true);
             })
@@ -38,6 +37,10 @@ function App() {
             }})
     return () => { isMounted = false };
   }, [])
+
+  useEffect(()=>{
+    console.log("HERE")
+  },[loggedin])
 
   function handleLogout(e){
     // e.preventDefault();

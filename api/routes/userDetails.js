@@ -11,6 +11,9 @@ var uC = require('../controllers/userController');
 //Added necessary routes
 router.get('/homepage', ensureAuthenticated, uC.index);
 
+//Checks if loggedin
+router.get('/logincheck', ensureAuthenticated, uC.logincheck);
+
 // router.get('/login', checkNotAuthenticated, uC.loginget); //can comment out after when doing frontend
 router.post('/login', checkNotAuthenticated, uC.loginpost);
 
