@@ -26,6 +26,7 @@ function App() {
   }
 
   useEffect(() =>{
+    console.log("appmounted")
     //Give a second or so timeout for loading page - do this for all api calls
     let isMounted = true;
     axios.get('http://localhost:8080/user/homepage/')

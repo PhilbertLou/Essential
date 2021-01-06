@@ -17,7 +17,7 @@ mongoose.set('useCreateIndex', true);
 exports.index = async function(req, res) {
     var currentuser = await user.findOne({ username: req.user.username });
     var today = new Date();
-    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    var date = today.getFullYear() + '-' + (today.getMonth() + 3) + '-' + today.getDate();
     var error;
     
     //If the current day is not the tracked date, a fresh day will be made 
@@ -43,11 +43,11 @@ exports.index = async function(req, res) {
                 }
                 return;
             })
+            if(error){
+                res.status(400).send({message:"Total amounts today cannot be negative"});
+                return;
+            }
             currentuser.previousDays.push({date: currentuser.currentDay.date, id: currentuser.currentDay._id});
-        }
-        if(error){
-            res.status(400).send({message:"Total amounts today cannot be negative"});
-            return;
         }
         // soGoal: req.user.soGoal,
         var todayModel = new day({wGoal: req.user.wGoal, suGoal: req.user.suGoal, date:date});

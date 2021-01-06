@@ -87,8 +87,9 @@ exports.addInfo = async function(req, res) {
             //Gets user and date
             var currentuser = await user.findOne({ username: req.user.username });
             var today = new Date();
-            var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+            var date = today.getFullYear() + '-' + (today.getMonth() + 3) + '-' + today.getDate();
             var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            var error;
 
             //This part runs the same as the code above but also adds te old date to user array (code should not run)
             if(req.user.trackedDate !== date){
@@ -107,11 +108,16 @@ exports.addInfo = async function(req, res) {
 
                 await prevday.save((err) => {
                     if(err){
-                        res.status(400).send({message:"Total amounts today cannot be negative"});
+                        error = true;
                         return;
                     }
                     return;
                 })
+
+                if(error){
+                    res.status(400).send({message:"Total amounts today cannot be negative"});
+                    return;
+                }
 
                 // currentuser.previousDays.push(currentuser.currentDay);
                 currentuser.previousDays.push({date: currentuser.currentDay.date, id: currentuser.currentDay._id});
@@ -122,12 +128,17 @@ exports.addInfo = async function(req, res) {
     
                 await todayModel.save((err)=>{
                     if(err){
-                        res.status(400).send({message:"Total amounts today cannot be negative"});
+                        error = true;
                         return;
                     }
                     //res.status(200).send({message:"Tracked!"});
                     return;
                 })
+
+                if(error){
+                    res.status(400).send({message:"Total amounts today cannot be negative"});
+                    return;
+                }
 
                 currentuser.currentDay = todayModel;
                 currentuser.trackedDate = date;
@@ -136,24 +147,34 @@ exports.addInfo = async function(req, res) {
                 var updateModel = new update({water: req.body.water, sugar: req.body.sugar, time: time});
                 await updateModel.save((err)=>{
                     if(err){
-                        res.status(400).send({message:"Error updating info"});
+                        error = true;
                         return;
                     }
                     //res.status(200).send({message:"Tracked!"});
                     return;
                 })
 
+                if(error){
+                    res.status(400).send({message:"Error updating info"});
+                    return;
+                }
+
                 currentuser.currentDay.updates.push(updateModel);
 
                 await currentuser.save((err)=>{
                     if(err){
-                        res.status(400).send({message:"Error updating info"});
+                        error = true;
                         return;
                     }
                     res.status(200).send({message:"Tracked!"});
                     return;
                 })
+                if(error){
+                    res.status(400).send({message:"Error updating info"});
+                    return;
+                }
             }
+
             //This part should be the part of this function that always runs
             else{
                 // console.log("SAME DAY");
@@ -165,7 +186,12 @@ exports.addInfo = async function(req, res) {
                 //Error if the values become negative
                 // newsodium < 0 ||
                 if(newwater < 0 || newsugar < 0){
-                    res.status(400).send({message:"Updated values cannot be negative"});//can make it just 0 too
+                    error = true;
+                    return;
+                }
+
+                if(error){
+                    res.status(400).send({message:"Updated values cannot be negative"});
                     return;
                 }
 
@@ -174,12 +200,17 @@ exports.addInfo = async function(req, res) {
                 var updateModel = new update({water: req.body.water, sugar: req.body.sugar, time: time});
                 await updateModel.save((err)=>{
                     if(err){
-                        res.status(400).send({message:"Error updating info"});
+                        error = true;
                         return;
                     }
                     //res.status(200).send({message:"Tracked!"});
                     return;
                 })
+
+                if(error){
+                    res.status(400).send({message:"Error updating info"});
+                    return;
+                }
 
                 //Saves the info
                 currentuser.currentDay.updates.push(updateModel);
@@ -189,12 +220,16 @@ exports.addInfo = async function(req, res) {
 
                 await currentuser.save((err)=>{
                     if(err){
-                        res.status(400).send({message:"Error updating info"});
+                        error = true;
                         return;
                     }
                     res.status(200).send({message:"Tracked!"});
                     return;
                 })
+                if(error){
+                    res.status(400).send({message:"Error updating info"});
+                    return;
+                }
             }
         }
     }catch(err){

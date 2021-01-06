@@ -41,13 +41,13 @@ app.use(passport.session());
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-  res.setHeader('Access-Control-Allow-Credentials', true)
+  res.setHeader('Access-Control-Allow-Credentials', true);
   next();
 });
 
 app.use(cors({
   origin: ['http://localhost:3000', 'http://localhost:8080', 'http://localhost:3000/$/'],
-  methods: "GET,POST",
+  methods: "GET,POST,OPTIONS",
   credentials: true,
   optionsSuccessStatus: 200
 }));

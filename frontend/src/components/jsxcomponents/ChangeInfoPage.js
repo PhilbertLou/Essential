@@ -5,9 +5,12 @@ import '../../App.css';
 function ChangeInfoPage(props){
     return(
         <div className="center-screen">
-            {props.message?<div className="alert alert-danger formbox" role="alert">
+            {props.message==="Updated" || props.message=== "Password changed"?<div className="alert alert-success formbox" role="alert">
                 <div className="formbuttondiv">{props.message}</div>
-            </div>: <br/>}
+            </div>: null}
+            {(props.message && (props.message !== "Updated" && props.message !== "Password changed"))?<div className="alert alert-danger formbox" role="alert">
+                <div className="formbuttondiv">{props.message}</div>
+            </div>: null}
             <div className="formbox">
             <h1 className="title">Change Info</h1>
             <small className="text-muted"> Done making changes? <Link to="/home">Go back to home</Link></small>

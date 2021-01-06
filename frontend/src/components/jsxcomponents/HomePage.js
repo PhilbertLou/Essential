@@ -6,15 +6,16 @@ import 'react-circular-progressbar/dist/styles.css';
 
 
 function HomePage(props){
-    const [waterperc, setwaterperc] = useState(0);
-    const [sugarperc, setsugarperc] = useState(0);
-
-    useEffect(()=>{
-        console.log(props.wGoal);
-        console.log(props.suGoal);
-        setwaterperc(props.wGoal?((100*props.water/props.wGoal).toFixed(2)):100);
-        setsugarperc(props.suGoal?((100*props.sugar/props.suGoal).toFixed(2)):100);
-    }, [])
+    // const [waterperc, setwaterperc] = useState(0);
+    // const [sugarperc, setsugarperc] = useState(0);
+    const waterperc = props.waterperc
+    const sugarperc = props.sugarperc
+    // useEffect(()=>{
+    //     console.log(props.wGoal);
+    //     console.log(props.suGoal);
+    //     setwaterperc(props.wGoal?((100*props.water/props.wGoal).toFixed(2)):100);
+    //     setsugarperc(props.suGoal?((100*props.sugar/props.suGoal).toFixed(2)):100);
+    // }, [])
     return(
         <div>
             <div className="jumbotron jumbotron-fluid bg-dark text-white jumbotronsize">
@@ -24,6 +25,9 @@ function HomePage(props){
                     <p className="lead">Your water goal today is: {props.wGoal} mL</p>
                     <p className="lead">Your sugar limit today is: {props.suGoal} g</p>
                     <small className="text-muted"> Tip: Pressing either submit button will register both entries. So you can click any for either or both!</small>
+                    {props.message === "Tracked!"?<div><br/><div className="alert alert-success" style={{textAlign:"center"}}role="alert">
+                        <div className="formbuttondiv">{props.message}</div>
+                    </div></div>: null}
                 </div>
             </div>
             <div className="row m-0 centerdiv">
@@ -48,8 +52,16 @@ function HomePage(props){
                                     backgroundColor: '#3e98c7',
                                   })}>
                                  </CircularProgressbarWithChildren>
-                            <h5 className="card-title">Secondary card title</h5>
-                            <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                 <br />
+                                 <button className="btn btn-outline-secondary wsbuttonmargins" onClick={props.water10}>10</button>
+                                <button className="btn btn-outline-secondary wsbuttonmargins" onClick={props.water50}>50</button>
+                                <button className="btn btn-outline-secondary wsbuttonmargins" onClick={props.water100}>100</button>
+                                <br />
+                                Currently going up/down by: 
+                                <input className="form-control" type="number" name="directwater" value={props.waternum} placeholder="Custom Value" onChange={props.handleWChange} />
+                                <button className="btn btn-outline-dark wsbuttonmargins" onClick={props.incrementwater}>+</button>
+                                <button className="btn btn-outline-dark wsbuttonmargins" onClick={props.deincrementwater}>-</button>
+                                <button className="btn btn-outline-success wsbuttonmargins" onClick={props.handleTrack}>Save Update</button>
                         </div>
                     </div>
                 </div>
@@ -74,30 +86,26 @@ function HomePage(props){
                                     backgroundColor: '#3e98c7',
                                   })}
                              />
-                            <h5 className="card-title">Secondary card title</h5>
-                            <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                             <br />
+                            <button className="btn btn-outline-secondary wsbuttonmargins" onClick={props.sugar1}>1</button>
+                            <button className="btn btn-outline-secondary wsbuttonmargins" onClick={props.sugar5}>5</button>
+                            <button className="btn btn-outline-secondary wsbuttonmargins" onClick={props.sugar10}>10</button>
+                            <br />
+                            Currently going up/down by: 
+                            <input className="form-control" type="number" name="directsugar" value={props.sugarnum} placeholder="Custom Value" onChange={props.handleSUChange} />
+                            <button className="btn btn-outline-dark wsbuttonmargins" onClick={props.incrementsugar}>+</button>
+                            <button className="btn btn-outline-dark wsbuttonmargins" onClick={props.deincrementsugar}>-</button>
+                            <button className="btn btn-outline-danger wsbuttonmargins" onClick={props.handleTrack}>Save Update</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* <p>{props.name}</p> W
-            <br/ >
-            <p>{props.date}</p> W
-            <br/ >
-            <p>{props.water}</p>
-            <br/ >
-            <p>{props.sugar}</p>
-            <br/ >
-            <p>{props.wGoal}</p>
-            <br/ >
-            <p>{props.suGoal}</p>
-            <br/ >
-            <button onClick={props.water10}>10</button>
+            {/* <button onClick={props.water10}>10</button>
             <button onClick={props.water50}>50</button>
-            <button onClick={props.water100}>100</button>
-            <input type="number" name="directwater" value={props.directwater} placeholder="Custom Value" onChange={props.handleWChange} />
-            <button onClick={props.sugar1}>1</button>
+            <button onClick={props.water100}>100</button> */}
+            {/* <input type="number" name="directwater" value={props.directwater} placeholder="Custom Value" onChange={props.handleWChange} /> */}
+            {/* <button onClick={props.sugar1}>1</button>
             <button onClick={props.sugar5}>5</button>
             <button onClick={props.sugar10}>10</button>
             <input type="number" name="directsugar" value={props.directsugar} placeholder="Custom Value" onChange={props.handleSUChange} />
@@ -107,12 +115,8 @@ function HomePage(props){
             <button onClick={props.incrementsugar}>+</button>
             <button onClick={props.deincrementsugar}>-</button>
             <br />
-            <button onClick={props.handleTrack}>Save Update</button>
-            <button onClick={props.handleLogout}>Logout</button>
-            <button onClick={props.handleUpdates}>See Updates</button>
-            <button onClick={props.handleChanges}>Change Info</button>
-            <button onClick={props.handlePrevious}>See previous Days</button>
-            {props.message} */}
+            <button onClick={props.handleTrack}>Save Update</button> */}
+            {/* {props.message} */}
         </div>
     )
 }

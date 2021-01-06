@@ -5,9 +5,12 @@ import '../../App.css';
 function LoginPage(props){
     return(
         <div className="center-screen">
-            {props.message?<div className="alert alert-danger formbox" role="alert">
+            {props.message === "Account made!"?<div className="alert alert-success formbox" role="alert">
                 <div className="formbuttondiv">{props.message}</div>
-            </div>: <br/>}
+            </div>: null}
+            {(props.message && props.message !== "Account made!")?<div className="alert alert-danger formbox" role="alert">
+                <div className="formbuttondiv">{props.message}</div>
+            </div>: null}
             <div className="formbox">
             <h1 className="title">Login</h1>
             <small className="text-muted"> Sign into Essential or <Link to="/register">create an account</Link></small>

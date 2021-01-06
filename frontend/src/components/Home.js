@@ -21,8 +21,8 @@ function Home(props){
     const [directwater, setdirectwater] = useState("");
     const [directsugar, setdirectsugar] = useState("");
     const [loaded, setloaded] = useState(false);
-    // const [waterperc, setwaterperc] = useState(0);
-    // const [sugarperc, setsugarperc] = useState(0);
+    const [waterperc, setwaterperc] = useState(0);
+    const [sugarperc, setsugarperc] = useState(0);
     const history = useHistory();
 
     useEffect(() =>{
@@ -38,7 +38,18 @@ function Home(props){
                     setsuGoal(res.data.currentDay.suGoal);
                     setloaded(true);
                 }
+                return(res)
             })
+            .then(res=>{
+                if (isMounted){
+                    setwaterperc(res.data.currentDay.wGoal?((100*res.data.currentDay.water/res.data.currentDay.wGoal).toFixed(2)):100);
+                    setsugarperc(res.data.currentDay.suGoal?((100*res.data.currentDay.sugar/res.data.currentDay.suGoal).toFixed(2)):100);
+                }
+                // return(res)
+            })
+            // .then(res=>{
+            //     return () => { isMounted = false };
+            // })
             .catch(err => {if (err.response){
                 setmessage(err.response.data.message);
                 setloaded(true);
@@ -106,25 +117,25 @@ function Home(props){
     function incrementwater() {
         setwater(prevCount => prevCount + parseInt(waternum));
         setaddedwater(prevCount => prevCount + parseInt(waternum));
-        // setwaterperc(wGoal?water/wGoal:100);
+        setwaterperc(wGoal?(100*(water+ parseInt(waternum))/wGoal).toFixed(2):100);
     }
 
     function incrementsugar() {
         setsugar(prevCount => prevCount + parseInt(sugarnum));
         setaddedsugar(prevCount => prevCount + parseInt(sugarnum));
-        // setsugarperc(suGoal?water/suGoal:100);
+        setsugarperc(suGoal?(100*(sugar+ parseInt(sugarnum))/suGoal).toFixed(2):100);
     }
 
     function deincrementwater() {
         if (water-waternum >= 0){
             setwater(prevCount => prevCount - waternum);
             setaddedwater(prevCount => prevCount - waternum);
-            // setwaterperc(wGoal?water/wGoal:100);
+            setwaterperc(wGoal?(100*(water- waternum)/wGoal).toFixed(2):100);
         }
         else{
             setaddedwater(prevCount => prevCount - water);
             setwater(0);
-            // setwaterperc(0);
+            setwaterperc(0);
         }
     }
 
@@ -132,12 +143,12 @@ function Home(props){
         if (sugar-sugarnum >= 0){
             setsugar(prevCount => prevCount - sugarnum);
             setaddedsugar(prevCount => prevCount - sugarnum);
-            // setsugarperc(suGoal?water/suGoal:100);
+            setsugarperc(suGoal?(100*(sugar - sugarnum)/suGoal).toFixed(2):100);
         }
         else{
             setaddedsugar(prevCount => prevCount - sugar);
             setsugar(0);
-            // setsugarperc(0);
+            setsugarperc(0);
         }
     }
 
@@ -180,17 +191,19 @@ function Home(props){
                 sugar={sugar}
                 wGoal={wGoal}
                 suGoal={suGoal}
-                // waterperc={waterperc}
-                // sugarperc={sugarperc}
+                waterperc={waterperc}
+                sugarperc={sugarperc}
                 water10={water10}
                 water50={water50}
                 water100={water100}
                 directwater={directwater}
+                waternum={waternum}
                 handleWChange={handleWChange}
                 sugar1={sugar1}
                 sugar5={sugar5}
                 sugar10={sugar10}
                 directsugar={directsugar}
+                sugarnum={sugarnum}
                 handleSUChange={handleSUChange}
                 incrementwater={incrementwater}
                 deincrementwater={deincrementwater}
