@@ -2,8 +2,11 @@ import { BrowserRouter, Route, Switch, Redirect, useHistory, Link , useLocation}
 import React ,{ useEffect, useState } from 'react';
 import axios from 'axios';
 import UpdateItem from "./jsxcomponents/UpdateItem";
+import LoadingPage from './jsxcomponents/LodingPage';
 
 function SpecificDay(props) {
+    const day = props.match.params.day;
+    const id = props.match.params.id;
     axios.defaults.withCredentials = true;
 
     const [date, setdate] = useState("");
@@ -12,6 +15,7 @@ function SpecificDay(props) {
     const [wGoal, setwGoal] = useState(0);
     const [suGoal, setsuGoal] = useState(0);
     const [updates, setupdates] = useState([]);
+    const [loaded, setloaded] = useState(false);
     var test;
 
     const [message, setmessage] = useState("");
@@ -20,7 +24,7 @@ function SpecificDay(props) {
 
     useEffect(() =>{
         // console.log(location.suffix);
-        axios.get(`http://localhost:8080/user/previousdays/${location.suffix}`)
+        axios.get(`http://localhost:8080/user/previousdays/${day}/${id}`)
             .then(res => {
                 setdate(res.data.date);
                 setwater(res.data.water);
@@ -28,9 +32,11 @@ function SpecificDay(props) {
                 setwGoal(res.data.wGoal);
                 setsuGoal(res.data.suGoal);
                 setupdates(res.data.updates);
+                setloaded(true);
             })
             .catch(err => {if (err.response){
                 setmessage(err.response.data.message);
+                setloaded(true);
             }})
     }, [])
 
@@ -49,6 +55,7 @@ function SpecificDay(props) {
 
     return (
         <div>
+            {loaded? <h1>HERE</h1>:<LoadingPage />}
             <p>{date}</p>
             <br/ >
             <p>{water}</p>

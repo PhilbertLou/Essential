@@ -1,7 +1,7 @@
 // import logo from './logo.svg';
 import './App.css';
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Route, Switch, Redirect, useLocation } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect, useLocation, useHistory } from 'react-router-dom';
 import Home from './components/Home';
 import Main from './components/Main';
 import Login from './components/Login';
@@ -11,13 +11,15 @@ import ChangeInfo from './components/ChangeInfo';
 import PreviousDays from './components/PreviousDays';
 import SpecificDay from './components/SpecificDay';
 import Navbar from './components/jsxcomponents/Navbar';
+import LoggedInNav from './components/jsxcomponents/LoggedInNav';
 import axios from 'axios';
 
 
 function App() {
   axios.defaults.withCredentials = true;
-  const location = useLocation()
-  const [ loggedin, setlog ] = useState((location.pathname==="/login" || location.pathname==="/makeaccount")? false: true);
+  const location = useLocation();
+  const history = useHistory();
+  const [ loggedin, setlog ] = useState((location.pathname==="/login" || location.pathname==="/register")? false: true);
 
   function checklog(status){
     setlog(status);
@@ -35,6 +37,21 @@ function App() {
             }})
     return () => { isMounted = false };
   }, [])
+
+  function handleLogout(e){
+    // e.preventDefault();
+    console.log(`Form submitted:`);
+
+    axios.post('http://localhost:8080/user/logout/')
+        .then(res => {
+            setlog(false);
+            history.push("/login");
+        })
+        .catch(err => {if (err.response){
+            setlog(false);
+            history.push("/login");
+        }})
+  }
 
   const PrivateRoute = ({ component: Component, ...rest }) => {
     return (
@@ -68,12 +85,12 @@ function App() {
 
   return (
     <main>
-      <Navbar />
+      {loggedin? <LoggedInNav handleLogout={handleLogout}/> : <Navbar />}
       <Switch>
       <Route path="/" component={Main} exact />
-      <PrivateRoute changeStatus={checklog} path="/home" component={Home} />
+      <PrivateRoute handleLogout={handleLogout} changeStatus={checklog} path="/home" component={Home} />
       <PublicRoute changeStatus={checklog} path="/login" component={Login} />
-      <PublicRoute changeStatus={checklog} path="/makeaccount" component={MakeAccount} />
+      <PublicRoute changeStatus={checklog} path="/register" component={MakeAccount} />
       <PrivateRoute changeStatus={checklog} path="/updates" component={Updates} />
       <PrivateRoute changeStatus={checklog} path="/previousdays/:day/:id" component={SpecificDay} />
       <PrivateRoute changeStatus={checklog} path="/previousdays" component={PreviousDays} />

@@ -14,12 +14,12 @@ function ChangeInfoPage(props){
             <br /><br />
             <form onSubmit={props.handleGoals}>
                 <div className="form-group">
-                    <label for="watergoal">New Water Goal:</label>
-                    <input type="text" name="watergoal" value={props.water} placeholder="New Water Goal (in mL)" onChange={props.handleWChange} class="form-control forminput" id="watergoal" />
+                    <label htmlFor="watergoal">New Water Goal:</label>
+                    <input type="text" name="watergoal" value={props.water} placeholder="New Water Goal (in mL)" onChange={props.handleWChange} className="form-control forminput" id="watergoal" />
                 </div>
                 <div className="form-group">
-                <label for="sugargoal">New Sugar Limit:</label>
-                    <input type="text" name="sugargoal" value={props.sugar} placeholder="New Sugar Goal (in g)" onChange={props.handleSUChange} class="form-control forminput" id="sugargoal" />
+                <label htmlFor="sugargoal">New Sugar Limit:</label>
+                    <input type="text" name="sugargoal" value={props.sugar} placeholder="New Sugar Goal (in g)" onChange={props.handleSUChange} className="form-control forminput" id="sugargoal" />
                 </div>
                 <br />
                 <div className="formbuttondiv">
@@ -29,16 +29,16 @@ function ChangeInfoPage(props){
             </form>
             <form onSubmit={props.handlePass}>
             <div className="form-group">
-                <label for="password">Password:</label>
-                    <input type="text" name="password" value={props.password} placeholder="Current Password" onChange={props.handlePChange} class="form-control forminput" id="Password" />
+                <label htmlFor="password">Password:</label>
+                    <input type="text" name="password" value={props.password} placeholder="Current Password" onChange={props.handlePChange} className="form-control forminput" id="Password" />
                 </div>
                 <div className="form-group">
-                <label for="password1">New Password:</label>
-                    <input type="text" name="password1" value={props.password1} placeholder="New Password (Minimum 8 characters)" onChange={props.handleP1Change} class="form-control forminput" id="Password1" />
+                <label htmlFor="password1">New Password:</label>
+                    <input type="text" name="password1" value={props.password1} placeholder="New Password (Minimum 8 characters)" onChange={props.handleP1Change} className="form-control forminput" id="Password1" />
                 </div>
                 <div className="form-group">
-                <label for="password2">Retype New Password:</label>
-                    <input type="text" name="password2" value={props.password2} placeholder="Retype New Password" onChange={props.handleP2Change} class="form-control forminput" id="Password2" />
+                <label htmlFor="password2">Retype New Password:</label>
+                    <input type="text" name="password2" value={props.password2} placeholder="Retype New Password" onChange={props.handleP2Change} className="form-control forminput" id="Password2" />
                 </div>
                 <br />
                 <div className="formbuttondiv">

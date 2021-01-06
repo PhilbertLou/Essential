@@ -1,5 +1,7 @@
 import React ,{ useEffect, useState } from 'react';
 import { BrowserRouter, Route, Switch, Redirect, useHistory } from 'react-router-dom';
+import LoadingPage from './jsxcomponents/LodingPage';
+import HomePage from './jsxcomponents/HomePage';
 import axios from 'axios';
 
 function Home(props){
@@ -18,6 +20,9 @@ function Home(props){
     const [message, setmessage] = useState("");
     const [directwater, setdirectwater] = useState("");
     const [directsugar, setdirectsugar] = useState("");
+    const [loaded, setloaded] = useState(false);
+    // const [waterperc, setwaterperc] = useState(0);
+    // const [sugarperc, setsugarperc] = useState(0);
     const history = useHistory();
 
     useEffect(() =>{
@@ -31,28 +36,30 @@ function Home(props){
                     setsugar(res.data.currentDay.sugar);
                     setwGoal(res.data.currentDay.wGoal);
                     setsuGoal(res.data.currentDay.suGoal);
+                    setloaded(true);
                 }
             })
             .catch(err => {if (err.response){
                 setmessage(err.response.data.message);
+                setloaded(true);
             }})
             return () => { isMounted = false };
     }, [])
     
-    function handleLogout(e){
-        e.preventDefault();
-        console.log(`Form submitted:`);
+    // function handleLogout(e){
+    //     e.preventDefault();
+    //     console.log(`Form submitted:`);
 
-        axios.post('http://localhost:8080/user/logout/')
-            .then(res => {
-                props.changeStatus(false);
-                history.push("/login");
-            })
-            .catch(err => {if (err.response){
-                props.changeStatus(false);
-                history.push("/login");
-            }})
-    }
+    //     axios.post('http://localhost:8080/user/logout/')
+    //         .then(res => {
+    //             props.changeStatus(false);
+    //             history.push("/login");
+    //         })
+    //         .catch(err => {if (err.response){
+    //             props.changeStatus(false);
+    //             history.push("/login");
+    //         }})
+    // }
 
     function handleUpdates(e){
         e.preventDefault();
@@ -99,21 +106,25 @@ function Home(props){
     function incrementwater() {
         setwater(prevCount => prevCount + parseInt(waternum));
         setaddedwater(prevCount => prevCount + parseInt(waternum));
+        // setwaterperc(wGoal?water/wGoal:100);
     }
 
     function incrementsugar() {
         setsugar(prevCount => prevCount + parseInt(sugarnum));
         setaddedsugar(prevCount => prevCount + parseInt(sugarnum));
+        // setsugarperc(suGoal?water/suGoal:100);
     }
 
     function deincrementwater() {
         if (water-waternum >= 0){
             setwater(prevCount => prevCount - waternum);
             setaddedwater(prevCount => prevCount - waternum);
+            // setwaterperc(wGoal?water/wGoal:100);
         }
         else{
             setaddedwater(prevCount => prevCount - water);
             setwater(0);
+            // setwaterperc(0);
         }
     }
 
@@ -121,10 +132,12 @@ function Home(props){
         if (sugar-sugarnum >= 0){
             setsugar(prevCount => prevCount - sugarnum);
             setaddedsugar(prevCount => prevCount - sugarnum);
+            // setsugarperc(suGoal?water/suGoal:100);
         }
         else{
             setaddedsugar(prevCount => prevCount - sugar);
             setsugar(0);
+            // setsugarperc(0);
         }
     }
 
@@ -146,32 +159,6 @@ function Home(props){
     function sugar10() {
         setsugarnum(10);
     }
-    // function handleWChange(e) {
-    //     if(e.target.value >=0){
-    //         setaddedwater(prevCount => prevCount + (e.target.value - water));
-    //         setdirectwater(e.target.value);
-    //         setwater(e.target.value);
-    //     }
-    //     else{
-    //         setaddedwater(0 - water);
-    //         setdirectwater(0);
-    //         setwater(0);
-    //         setmessage('Number cannot be less than zero, value will be set to 0');
-    //     }
-    // }
-    // function handleSUChange(e){
-    //     if(e.target.value >=0){
-    //         setaddedsugar(prevCount => prevCount + (e.target.value - sugar));
-    //         setdirectsugar(e.target.value);
-    //         setsugar(e.target.value);
-    //     }
-    //     else{
-    //         setaddedsugar(0 - sugar);
-    //         setdirectsugar(0);
-    //         setsugar(0);
-    //         setmessage('Number cannot be less than zero, value will be set to 0');
-    //     }
-    // }
 
     function handleWChange(e) {
         setwaternum(e.target.value);
@@ -186,50 +173,36 @@ function Home(props){
 
     return (
         <div>
-            <p>{name}</p>
-            <br/ >
-            <p>{date}</p>
-            <br/ >
-            <p>{water}</p>
-            <br/ >
-            <p>{sugar}</p>
-            <br/ >
-            <p>{wGoal}</p>
-            <br/ >
-            <p>{suGoal}</p>
-            <br/ >
-            <button onClick={water10}>10</button>
-            <button onClick={water50}>50</button>
-            <button onClick={water100}>100</button>
-            {/* <input type="number" name="directwater" value={directwater} placeholder="Set Water" onChange={handleWChange} /> */}
-            <input type="number" name="directwater" value={directwater} placeholder="Custom Value" onChange={handleWChange} />
-            <button onClick={sugar1}>1</button>
-            <button onClick={sugar5}>5</button>
-            <button onClick={sugar10}>10</button>
-            {/* <input type="number" name="directsugar" value={directsugar} placeholder="Set Sugar" onChange={handleSUChange} /> */}
-            <input type="number" name="directsugar" value={directsugar} placeholder="Custom Value" onChange={handleSUChange} />
-            <br />
-            <button onClick={incrementwater}>+</button>
-            <button onClick={deincrementwater}>-</button>
-            <button onClick={incrementsugar}>+</button>
-            <button onClick={deincrementsugar}>-</button>
-            <br />
-            <form onSubmit={handleTrack}>
-                <button type="submit">Save Update</button>
-            </form>
-            <form onSubmit={handleLogout}>
-                <button type="submit">Logout</button>
-            </form>
-            <form onSubmit={handleUpdates}>
-                <button type="submit">See Updates</button>
-            </form>
-            <form onSubmit={handleChanges}>
-                <button type="submit">Change Info</button>
-            </form>
-            <form onSubmit={handlePrevious}>
-                <button type="submit">See previous Days</button>
-            </form>
-            {message}
+            {loaded? <HomePage 
+                name={name}
+                date={date}
+                water={water}
+                sugar={sugar}
+                wGoal={wGoal}
+                suGoal={suGoal}
+                // waterperc={waterperc}
+                // sugarperc={sugarperc}
+                water10={water10}
+                water50={water50}
+                water100={water100}
+                directwater={directwater}
+                handleWChange={handleWChange}
+                sugar1={sugar1}
+                sugar5={sugar5}
+                sugar10={sugar10}
+                directsugar={directsugar}
+                handleSUChange={handleSUChange}
+                incrementwater={incrementwater}
+                deincrementwater={deincrementwater}
+                incrementsugar={incrementsugar}
+                deincrementsugar={deincrementsugar}
+                handleTrack={handleTrack}
+                handleLogout={props.handleLogout}
+                handleUpdates={handleUpdates}
+                handleChanges={handleChanges}
+                handlePrevious={handlePrevious}
+                message={message}
+            />:<LoadingPage />}
         </div>
     )
 }

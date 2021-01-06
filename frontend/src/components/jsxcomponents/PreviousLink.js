@@ -13,7 +13,7 @@ function PreviousLink(props) {
         <div className="centerdiv centertext">
             <div className="card border-secondary mb-3 updatecard">
                 {/* <div classsName="card-header">palceholder</div> */}
-                <div classsName="card-body text-success">
+                <div className="card-body text-success">
                     {/* <h5 classsName="card-title"></h5> */}
                     <br />
                     <Link to={{pathname: `/previousdays/${dateinfo.date}/${dateinfo.id}`, 

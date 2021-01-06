@@ -3,12 +3,14 @@ import { BrowserRouter, Route, Switch, Redirect, useHistory } from 'react-router
 import axios from 'axios';
 import UpdateItem from "./jsxcomponents/UpdateItem"
 import UpdatePage from "./jsxcomponents/UpdatePage"
+import LoadingPage from './jsxcomponents/LodingPage';
 import '../App.css';
 
 function Updates(props){
     axios.defaults.withCredentials = true;
     const [updates, setupdates] = useState([]);
     const [message, setmessage] = useState("");
+    const [loaded, setloaded] = useState(false);
     var updatejsx;
     const history = useHistory();
     
@@ -16,9 +18,11 @@ function Updates(props){
         axios.get('http://localhost:8080/user/homepage/')
             .then(res => {
                 setupdates(res.data.currentDay.updates);
+                setloaded(true);
             })
             .catch(err => {if (err.response){
                 setmessage(err.response.data.message);
+                setloaded(true);
             }})
     }, [])
     
@@ -38,10 +42,10 @@ function Updates(props){
     return (
         <div>
             {makeupdate()}
-            <UpdatePage 
+            {loaded?<UpdatePage 
                 updatejsx={updatejsx}
                 // handleBack={handleBack}
-            />
+            />:<LoadingPage />}
         </div>
     )
 }

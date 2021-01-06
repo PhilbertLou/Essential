@@ -10,16 +10,16 @@ function LoginPage(props){
             </div>: <br/>}
             <div className="formbox">
             <h1 className="title">Login</h1>
-            <small className="text-muted"> Sign into Essential or <Link to="/makeaccount">create an account</Link></small>
+            <small className="text-muted"> Sign into Essential or <Link to="/register">create an account</Link></small>
             <br /><br />
             <form onSubmit={props.handleSubmit}>
                 <div className="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" name="username" value={props.username} placeholder="Username" onChange={props.handleUNChange} class="form-control forminput" id="username" />
+                    <label htmlFor="username">Username:</label>
+                    <input type="text" name="username" value={props.username} placeholder="Username" onChange={props.handleUNChange} className="form-control forminput" id="username" />
                 </div>
                 <div className="form-group">
-                <label for="password">Password:</label>
-                    <input type="text" name="password" value={props.password} placeholder="Password" onChange={props.handlePChange} class="form-control forminput" id="Password" />
+                <label htmlFor="password">Password:</label>
+                    <input type="text" name="password" value={props.password} placeholder="Password" onChange={props.handlePChange} className="form-control forminput" id="Password" />
                 </div>
                 <br />
                 <div className="formbuttondiv">

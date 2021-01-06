@@ -2,21 +2,24 @@ import React ,{ useEffect, useState } from 'react';
 import { BrowserRouter, Route, Switch, Redirect, useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import LoginPage from './jsxcomponents/LoginPage';
+import LoadingPage from './jsxcomponents/LodingPage';
 
 function Login(props){
     axios.defaults.withCredentials = true;
     const [username, setusername] = useState("phil2");
     const [password, setpassword] = useState("philphil");
     const [message, setmessage] = useState("");
+    const [loaded, setloaded] = useState(false);
     const history = useHistory();
     const location = useLocation();
 
     useEffect(() =>{
         try{
             setmessage(location.message)
+            setloaded(true);
         }
         catch{
-            
+            setloaded(true);
         }
     }, [])
 
@@ -29,7 +32,7 @@ function Login(props){
     };
 
     function handleMakeAccount(e){
-        history.push("/makeaccount")
+        history.push("/register")
     }
 
     function handleSubmit(e){
@@ -56,7 +59,7 @@ function Login(props){
 
     return (
         <div>
-            <LoginPage
+            {loaded?<LoginPage
                 handleSubmit={handleSubmit}
                 handleUNChange={handleUNChange}
                 handlePChange={handlePChange}
@@ -64,7 +67,7 @@ function Login(props){
                 username={username}
                 password={password}
                 message={message}
-            />
+            />: <LoadingPage />}
         </div>
     )
 }

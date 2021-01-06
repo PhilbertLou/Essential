@@ -2,6 +2,7 @@ import React ,{ useEffect, useState } from 'react';
 import { BrowserRouter, Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import ChangeInfoPage from './jsxcomponents/ChangeInfoPage';
+import LoadingPage from './jsxcomponents/LodingPage';
 
 function ChangeInfo(props){
     axios.defaults.withCredentials = true;
@@ -11,6 +12,7 @@ function ChangeInfo(props){
     const [password1, setpassword1] = useState("");
     const [password2, setpassword2] = useState("");
     const [message, setmessage] = useState("");
+    // const [loaded, setloaded] = useState(0);
     const history = useHistory();
 
     function handleWChange(e){

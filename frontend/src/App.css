@@ -70,8 +70,74 @@
 
 .mainpageimagebox{
   margin-top: 2%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .buttonmargin{
   margin-right:15px;
+  margin-top:15px;
+}
+
+.formmargin{
+  margin-top:5vh;
+}
+
+.mainbox{
+  /* min-width: 40rem; */
+}
+
+.navmargins{
+  margin-left: 120px !important;
+}
+
+.lefthomepagetextbox{
+  margin-top: 2vh;
+  /* padding-top: 20vh;
+  padding-left: 10vh;
+  padding-right: 30vh; */
+  /* min-width: 30vh; */
+  /* outline: 5px solid red; */
+}
+
+.righthomepagetextbox{
+  margin-top: 2vh;
+  /* padding-top: 20vh;
+  padding-left: 30vh;
+  padding-right: 10vh; */
+  /* min-width: 30vh; */
+  /* outline: 5px solid red; */
+}
+
+.leftinfobox{
+  /* margin-top: 20vh; */
+  padding: 10vh;
+  /* outline: 5px solid blue; */
+}
+
+.rightinfobox{
+  /* margin-top: 20vh; */
+  padding: 10vh;
+  /* outline: 5px solid blue; */
+}
+
+.circlesize{
+  margin:auto;
+  width: 60%;
+}
+
+.jumbotronsize{
+  margin-top: 2vh !important;
+  width:65%;
+  margin:auto;
+  padding: 0.5vh !important;
+}
+
+@media screen and (max-width: 1200px) {
+  .jumbotronsize{
+    margin-top: 2vh !important;
+    width:90%;
+    margin:auto;
+    padding: 0.2vh !important;
+  }
 }
