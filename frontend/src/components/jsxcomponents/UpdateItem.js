@@ -3,7 +3,7 @@ import '../../App.css';
 
 function UpdateItem(props) {
     return (
-        <div className="centerdiv centertext">
+        <div className="centerdiv centertext googlefont">
             {(props.item.water||props.item.sugar)?<div className="card border-secondary mb-3 updatecard">
                 <div className="card-header">{props.item.time} </div>
                 <div className="card-body">

@@ -10,7 +10,7 @@ function PreviousLink(props) {
         //         suffix: `${dateinfo.date}/${dateinfo.id}`}}>{dateinfo.date}</Link>
         // </div>
         
-        <div className="centerdiv centertext">
+        <div className="centerdiv centertext googlefont">
             <div className="card border-secondary mb-3 updatecard">
                 {/* <div classsName="card-header">palceholder</div> */}
                 <div className="card-body text-success">

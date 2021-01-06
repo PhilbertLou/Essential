@@ -3,6 +3,7 @@ import React ,{ useEffect, useState } from 'react';
 import axios from 'axios';
 import UpdateItem from "./jsxcomponents/UpdateItem";
 import LoadingPage from './jsxcomponents/LodingPage';
+import HomePage from './jsxcomponents/SpecificDayPage';
 
 function SpecificDay(props) {
     const day = props.match.params.day;
@@ -16,6 +17,8 @@ function SpecificDay(props) {
     const [suGoal, setsuGoal] = useState(0);
     const [updates, setupdates] = useState([]);
     const [loaded, setloaded] = useState(false);
+    const [waterperc, setwaterperc] = useState(0);
+    const [sugarperc, setsugarperc] = useState(0);
     var test;
 
     const [message, setmessage] = useState("");
@@ -33,6 +36,12 @@ function SpecificDay(props) {
                 setsuGoal(res.data.suGoal);
                 setupdates(res.data.updates);
                 setloaded(true);
+                return(res)
+            })
+            .then(res=>{
+                setwaterperc(res.data.wGoal?((100*res.data.water/res.data.wGoal).toFixed(2)):100);
+                setsugarperc(res.data.suGoal?((100*res.data.sugar/res.data.suGoal).toFixed(2)):100);
+                // return(res)
             })
             .catch(err => {if (err.response){
                 setmessage(err.response.data.message);
@@ -55,8 +64,28 @@ function SpecificDay(props) {
 
     return (
         <div>
-            {loaded? <h1>HERE</h1>:<LoadingPage />}
-            <p>{date}</p>
+            {maketest()}
+            {loaded? 
+            <div>
+            <HomePage 
+                date={date}
+                water={water}
+                sugar={sugar}
+                wGoal={wGoal}
+                suGoal={suGoal}
+                waterperc={waterperc}
+                sugarperc={sugarperc}
+                handleBack={handleBack}
+            />
+            <br />
+            <div style={{textAlign:"center"}}>
+                <h1>Updates</h1>
+            </div>
+            {test}
+            </div>
+            :<LoadingPage />}
+            {/* {test} */}
+            {/* <p>{date}</p>
             <br/ >
             <p>{water}</p>
             <br/ >
@@ -68,13 +97,18 @@ function SpecificDay(props) {
             <br/ >
             <p>{message}</p>
             <br/ >
+            <p>{message}</p>
+            <br/ >{waterperc}
+            <br />
+            {sugarperc}
+            <br />
             <br />
             {maketest()}
             {test}
             <br/ >
-            <form onSubmit={handleBack}>
-                <button type="submit">Go back</button>
-            </form>
+            {/* <form onSubmit={handleBack}>
+                <button onClick={handleBack}>Go back</button>
+            </form> */} 
         </div>
     )
 }

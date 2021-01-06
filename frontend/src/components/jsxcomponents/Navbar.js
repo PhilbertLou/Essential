@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch, Redirect, useHistory, Link } from 'react-
 
 function Navbar(props){
     return(
-        <div>
+        <div className="googlefont">
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <Link to="/" className="navbar-brand">Essential</Link>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

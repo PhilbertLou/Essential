@@ -14,13 +14,19 @@ function Login(props){
     const location = useLocation();
 
     useEffect(() =>{
+        let isMounted = true;
         try{
-            setmessage(location.message)
-            setloaded(true);
+            if (isMounted){
+                setmessage(location.message)
+                setloaded(true);
+            }
         }
         catch{
-            setloaded(true);
+            if (isMounted){
+                setloaded(true);
+            }
         }
+        return () => { isMounted = false };
     }, [])
 
     function handleUNChange(e){

@@ -4,7 +4,7 @@ import '../../App.css';
 
 function ChangeInfoPage(props){
     return(
-        <div className="center-screen">
+        <div className="center-screen googlefont">
             {props.message==="Updated" || props.message=== "Password changed"?<div className="alert alert-success formbox" role="alert">
                 <div className="formbuttondiv">{props.message}</div>
             </div>: null}
@@ -18,11 +18,11 @@ function ChangeInfoPage(props){
             <form onSubmit={props.handleGoals}>
                 <div className="form-group">
                     <label htmlFor="watergoal">New Water Goal:</label>
-                    <input type="text" name="watergoal" value={props.water} placeholder="New Water Goal (in mL)" onChange={props.handleWChange} className="form-control forminput" id="watergoal" />
+                    <input type="number" name="watergoal" value={props.water} placeholder="New Water Goal (in mL)" onChange={props.handleWChange} className="form-control forminput" id="watergoal" />
                 </div>
                 <div className="form-group">
                 <label htmlFor="sugargoal">New Sugar Limit:</label>
-                    <input type="text" name="sugargoal" value={props.sugar} placeholder="New Sugar Goal (in g)" onChange={props.handleSUChange} className="form-control forminput" id="sugargoal" />
+                    <input type="number" name="sugargoal" value={props.sugar} placeholder="New Sugar Goal (in g)" onChange={props.handleSUChange} className="form-control forminput" id="sugargoal" />
                 </div>
                 <br />
                 <div className="formbuttondiv">

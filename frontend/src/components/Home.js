@@ -26,36 +26,45 @@ function Home(props){
     const history = useHistory();
 
     useEffect(() =>{
-        console.log("here")
+        const today = new Date();
+        const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         let isMounted = true;
+        const info = {
+            date:date
+        }
         if(!loaded){
-            axios.get('http://localhost:8080/user/homepage/')
-            .then(res => {
-                if (isMounted){
-                    setname(res.data.name);
-                    setdate(res.data.date);
-                    setwater(res.data.currentDay.water);
-                    setsugar(res.data.currentDay.sugar);
-                    setwGoal(res.data.currentDay.wGoal);
-                    setsuGoal(res.data.currentDay.suGoal);
-                    setloaded(true);
-                }
-                return(res)
-            })
+            axios.post('http://localhost:8080/user/checkday', info)
             .then(res=>{
-                if (isMounted){
-                    setwaterperc(res.data.currentDay.wGoal?((100*res.data.currentDay.water/res.data.currentDay.wGoal).toFixed(2)):100);
-                    setsugarperc(res.data.currentDay.suGoal?((100*res.data.currentDay.sugar/res.data.currentDay.suGoal).toFixed(2)):100);
+                if(res){
+                    axios.get('http://localhost:8080/user/homepage/')
+                    .then(res => {
+                        if (isMounted){
+                            setname(res.data.name);
+                            setdate(res.data.date);
+                            setwater(res.data.currentDay.water);
+                            setsugar(res.data.currentDay.sugar);
+                            setwGoal(res.data.currentDay.wGoal);
+                            setsuGoal(res.data.currentDay.suGoal);
+                            setloaded(true);
+                        }
+                        return(res)
+                    })
+                    .then(res=>{
+                        if (isMounted){
+                            setwaterperc(res.data.currentDay.wGoal?((100*res.data.currentDay.water/res.data.currentDay.wGoal).toFixed(2)):100);
+                            setsugarperc(res.data.currentDay.suGoal?((100*res.data.currentDay.sugar/res.data.currentDay.suGoal).toFixed(2)):100);
+                        }
+                        // return(res)
+                    })
+                    // .then(res=>{
+                    //     return () => { isMounted = false };
+                    // })
+                    .catch(err => {if (err.response){
+                        setmessage(err.response.data.message);
+                        setloaded(true);
+                    }})
                 }
-                // return(res)
             })
-            // .then(res=>{
-            //     return () => { isMounted = false };
-            // })
-            .catch(err => {if (err.response){
-                setmessage(err.response.data.message);
-                setloaded(true);
-            }})
         }
             return () => { isMounted = false };
     }, [])
@@ -100,9 +109,15 @@ function Home(props){
         e.preventDefault();
         console.log(`Form submitted:`);
 
+        const today = new Date();
+        const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
         const info = {
             water: addedwater,
             sugar: addedsugar,
+            date: date,
+            time: time
         }
         console.log(info.water)
         console.log(info.sugar)
@@ -118,25 +133,25 @@ function Home(props){
     }
 
     function incrementwater() {
-        setwater(prevCount => prevCount + parseInt(waternum));
-        setaddedwater(prevCount => prevCount + parseInt(waternum));
-        setwaterperc(wGoal?(100*(water+ parseInt(waternum))/wGoal).toFixed(2):100);
+        setwater(prevCount => (parseFloat(prevCount) + parseFloat(waternum)).toFixed(2));
+        setaddedwater(prevCount => (parseFloat(prevCount) + parseFloat(waternum)).toFixed(2));
+        setwaterperc(wGoal?(100*(parseFloat(water) + parseFloat(waternum))/wGoal).toFixed(2):100);
     }
 
     function incrementsugar() {
-        setsugar(prevCount => prevCount + parseInt(sugarnum));
-        setaddedsugar(prevCount => prevCount + parseInt(sugarnum));
-        setsugarperc(suGoal?(100*(sugar+ parseInt(sugarnum))/suGoal).toFixed(2):100);
+        setsugar(prevCount => (parseFloat(prevCount) + parseFloat(sugarnum)).toFixed(2));
+        setaddedsugar(prevCount => (parseFloat(prevCount) + parseFloat(sugarnum)).toFixed(2));
+        setsugarperc(suGoal?(100*(parseFloat(sugar)+ parseFloat(sugarnum))/suGoal).toFixed(2):100);
     }
 
     function deincrementwater() {
         if (water-waternum >= 0){
-            setwater(prevCount => prevCount - waternum);
-            setaddedwater(prevCount => prevCount - waternum);
-            setwaterperc(wGoal?(100*(water- waternum)/wGoal).toFixed(2):100);
+            setwater(prevCount => (parseFloat(prevCount) - parseFloat(waternum)).toFixed(2));
+            setaddedwater(prevCount => (parseFloat(prevCount) + parseFloat(sugarnum)).toFixed(2));
+            setwaterperc(wGoal?(100*(parseFloat(water)- parseFloat(waternum))/wGoal).toFixed(2):100);
         }
         else{
-            setaddedwater(prevCount => prevCount - water);
+            setaddedwater(prevCount => (parseFloat(prevCount) - parseFloat(water)).toFixed(2));
             setwater(0);
             setwaterperc(0);
         }
@@ -144,12 +159,12 @@ function Home(props){
 
     function deincrementsugar() {
         if (sugar-sugarnum >= 0){
-            setsugar(prevCount => prevCount - sugarnum);
-            setaddedsugar(prevCount => prevCount - sugarnum);
-            setsugarperc(suGoal?(100*(sugar - sugarnum)/suGoal).toFixed(2):100);
+            setsugar(prevCount => (parseFloat(prevCount) - parseFloat(sugarnum)).toFixed(2));
+            setaddedsugar(prevCount => (parseFloat(prevCount) - parseFloat(sugarnum)).toFixed(2));
+            setsugarperc(suGoal?(100*(parseFloat(sugar) - parseFloat(sugarnum))/suGoal).toFixed(2):100);
         }
         else{
-            setaddedsugar(prevCount => prevCount - sugar);
+            setaddedsugar(prevCount => (parseFloat(prevCount) - parseFloat(sugar)).toFixed(2));
             setsugar(0);
             setsugarperc(0);
         }

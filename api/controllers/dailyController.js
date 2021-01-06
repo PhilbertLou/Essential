@@ -34,10 +34,11 @@ exports.addInfo = async function(req, res) {
         if(req.user.trackedDate === null){
 
             //Gets date
-            var today = new Date();
-            var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-            // const date = req.body.date;
+            // var today = new Date();
+            // var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+            // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            const time = req.body.time;
+            const date = req.body.date;
 
             //Makes and saves the day with the new values passed in
             // soGoal: req.user.soGoal, sodium: req.body.sodium,
@@ -87,10 +88,11 @@ exports.addInfo = async function(req, res) {
         }else{
             //Gets user and date
             var currentuser = await user.findOne({ username: req.user.username });
-            var today = new Date();
-            var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-            // const date = req.body.date;
-            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            // var today = new Date();
+            // var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+            const date = req.body.date;
+            // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            const time = req.body.time;
             var error;
 
             //This part runs the same as the code above but also adds te old date to user array (code should not run)
@@ -181,9 +183,9 @@ exports.addInfo = async function(req, res) {
             else{
                 // console.log("SAME DAY");
                 //Calculates new values to track
-                var newwater = currentuser.currentDay.water + req.body.water;
+                var newwater = (parseFloat(currentuser.currentDay.water) + parseFloat(req.body.water)).toFixed(2);
                 // var newsodium = currentuser.currentDay.sodium + req.body.sodium;
-                var newsugar = currentuser.currentDay.sugar + req.body.sugar;
+                var newsugar = (parseFloat(currentuser.currentDay.sugar) + parseFloat(req.body.sugar)).toFixed(2);
 
                 //Error if the values become negative
                 // newsodium < 0 ||

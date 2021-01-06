@@ -4,7 +4,7 @@ import '../../App.css';
 
 function LodingPage(){
     return(
-        <div className="center-screen">
+        <div className="center-screen googlefont">
             <h1>Loading!</h1>
         </div>
     )

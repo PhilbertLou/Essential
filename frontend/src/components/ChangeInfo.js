@@ -42,8 +42,8 @@ function ChangeInfo(props){
         console.log(`Form submitted:`);
 
         const newgoals = {
-            newwatergoal: water,
-            newsugargoal: sugar
+            newwatergoal: parseFloat(water).toFixed(2),
+            newsugargoal: parseFloat(sugar).toFixed(2)
         };
 
         axios.post('http://localhost:8080/user/changegoals', newgoals)

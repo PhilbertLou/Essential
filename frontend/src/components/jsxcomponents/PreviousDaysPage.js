@@ -5,7 +5,7 @@ import '../../App.css';
 
 function UpdatePage(props){
     return(
-        <div className= "centerdiv centertext">
+        <div className= "centerdiv centertext googlefont">
             <h1>Previous Days</h1>
             <small className="text-muted">Done Seeing Previous Days? <Link to="/home">Go Back</Link></small>
             <br />

@@ -4,7 +4,7 @@ import '../../App.css';
 
 function LoginPage(props){
     return(
-        <div className="center-screen">
+        <div className="center-screen googlefont">
             {props.message === "Account made!"?<div className="alert alert-success formbox" role="alert">
                 <div className="formbuttondiv">{props.message}</div>
             </div>: null}

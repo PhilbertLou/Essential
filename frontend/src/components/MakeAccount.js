@@ -52,8 +52,8 @@ function MakeAccount(props){
             username: username,
             password1: password1,
             password2: password2,
-            watergoal: watergoal,
-            sugargoal: sugargoal
+            watergoal: parseFloat(watergoal).toFixed(2),
+            sugargoal: parseFloat(sugargoal).toFixed(2)
         };
 
         axios.post('http://localhost:8080/user/makeaccount/', newuser)

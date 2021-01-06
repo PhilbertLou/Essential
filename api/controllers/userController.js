@@ -16,11 +16,19 @@ mongoose.set('useCreateIndex', true);
 //Sends back the current day's info to the user
 exports.index = async function(req, res) {
     var currentuser = await user.findOne({ username: req.user.username });
-    var today = new Date();
-    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    // var today = new Date();
+    // var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     // const date = req.body.date;
-    var error;
     
+    // console.log(currentuser.currentDay);
+    res.status(200).send({date: currentuser.trackedDate, currentDay: currentuser.currentDay, name: currentuser.name});
+    return;
+};
+
+exports.checkday = async function(req,res){
+    var currentuser = await user.findOne({ username: req.user.username });
+    var error;
+    const date = req.body.date;
     //If the current day is not the tracked date, a fresh day will be made 
     if(req.user.trackedDate === null || req.user.trackedDate !== date){
         if(req.user.trackedDate !== date && req.user.trackedDate !== null){
@@ -77,13 +85,12 @@ exports.index = async function(req, res) {
             res.status(400).send({message:"Error updating info"});
             return;
         }
+        res.status(200).send({message:"DIFFERENT DAY!"});
+        return;
     }
-
-    
-    // console.log(currentuser.currentDay);
-    res.status(200).send({date: currentuser.trackedDate, currentDay: currentuser.currentDay, name: currentuser.name});
+    res.status(200).send({message:"SAME DAY!"});
     return;
-};
+}   
 
 exports.logincheck = function(req,res){
     // if(req.user){
@@ -113,7 +120,7 @@ exports.mkaccpost = async function(req, res) {
                 spot = " for Username"
             }
             else if(spot === "password1"){
-                spot = " for Password 1 (Reminder, password must be 8 characters minimum)"
+                spot = " for Password (Reminder, password must be 8 characters minimum)"
             }
             else if(spot === "watergoal"){
                 spot = " for Water Goal"

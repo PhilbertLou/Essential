@@ -68,15 +68,42 @@
   padding-left: 20%;
 }
 
+@media screen and (max-width: 1200px) {
+  .mainpagetextbox{
+    margin-top: 5vh !important;
+    /* margin-left: 5vh !important; */
+    padding-right: 20% !important;
+    width:90%;
+    min-width: 30vh;
+    margin:auto;
+    padding: 0.2vh !important;
+  }
+}
+
 .mainpageimagebox{
   margin-top: 2%;
   margin-left: auto;
   margin-right: auto;
+  padding-right: 115px;
+  padding-top: 75px;
+}
+
+@media screen and (max-width: 1400px) {
+  .mainpageimagebox{
+    margin-top: 5vh !important;
+    /* margin-right: 5vh !important; */
+    padding-left: 2000px !important;
+    width:90%;
+    min-width: 45vh;
+    margin:auto;
+    padding: 0.2vh !important;
+  }
 }
 
 .buttonmargin{
   margin-right:15px;
   margin-top:15px;
+  margin-bottom:15px;
 }
 
 .formmargin{
@@ -144,4 +171,8 @@
 
 .wsbuttonmargins{
   margin:3px;
+}
+
+.googlefont{
+  font-family: 'Raleway', sans-serif;
 }

@@ -29,7 +29,7 @@ function Main(){
                 <button onClick={gotologin} className="btn btn-dark formbutton buttonmargin">Login</button>
             </div>
             <div className="col-md-6 mainpageimagebox">
-                <img src="../test.png" className="img-fluid mainbox" alt="Responsive image" />
+                <img src="../Essential2.png" className="img-fluid mainbox" alt="Responsive image" />
             </div>
         </div>
     )

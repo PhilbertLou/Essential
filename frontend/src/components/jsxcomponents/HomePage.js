@@ -17,7 +17,7 @@ function HomePage(props){
     //     setsugarperc(props.suGoal?((100*props.sugar/props.suGoal).toFixed(2)):100);
     // }, [])
     return(
-        <div>
+        <div className="googlefont">
             <div className="jumbotron jumbotron-fluid bg-dark text-white jumbotronsize">
                 <div className="container">
                     <h1 className="display-4">Welcome back {props.name}</h1>
@@ -61,7 +61,7 @@ function HomePage(props){
                                 <input className="form-control" type="number" name="directwater" value={props.waternum} placeholder="Custom Value" onChange={props.handleWChange} />
                                 <button className="btn btn-outline-dark wsbuttonmargins" onClick={props.incrementwater}>+</button>
                                 <button className="btn btn-outline-dark wsbuttonmargins" onClick={props.deincrementwater}>-</button>
-                                <button className="btn btn-outline-success wsbuttonmargins" onClick={props.handleTrack}>Save Update</button>
+                                <button className="btn btn-outline-info wsbuttonmargins" onClick={props.handleTrack}>Save Update</button>
                         </div>
                     </div>
                 </div>

@@ -14,6 +14,9 @@ router.get('/homepage', ensureAuthenticated, uC.index);
 //Checks if loggedin
 router.get('/logincheck', ensureAuthenticated, uC.logincheck);
 
+//Checks for a new day
+router.post('/checkday', ensureAuthenticated, uC.checkday);
+
 // router.get('/login', checkNotAuthenticated, uC.loginget); //can comment out after when doing frontend
 router.post('/login', checkNotAuthenticated, uC.loginpost);
 

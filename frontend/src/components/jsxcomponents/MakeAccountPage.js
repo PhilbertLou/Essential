@@ -17,7 +17,7 @@ function MakeAccountPage(props){
         //         <br />
         //         <input type="number" name="sugargoal" value={props.sugargoal} placeholder="Sugar Goal" onChange={props.handleSUChange} />
         //         <br />
-        <div className="center-screen formmargin">
+        <div className="center-screen formmargin googlefont">
             {props.message?<div className="alert alert-danger formbox" role="alert">
                 <div className="formbuttondiv">{props.message}</div>
             </div>: <br/>}
@@ -44,11 +44,11 @@ function MakeAccountPage(props){
                 </div>
                 <div className="form-group">
                 <label htmlFor="watergoal">Daily Water Goal:</label>
-                    <input type="text" name="watergoal" value={props.watergoal} placeholder="Water Goal (in mL)" onChange={props.handleWChange} className="form-control forminput" id="watergoal" />
+                    <input type="number" name="watergoal" value={props.watergoal} placeholder="Water Goal (in mL)" onChange={props.handleWChange} className="form-control forminput" id="watergoal" />
                 </div>
                 <div className="form-group">
                 <label htmlFor="sugargoal">Daily Sugar Limit:</label>
-                    <input type="text" name="sugargoal" value={props.sugargoal} placeholder="Sugar Limit (in g)" onChange={props.handleSUChange} className="form-control forminput" id="sugargoal" />
+                    <input type="number" name="sugargoal" value={props.sugargoal} placeholder="Sugar Limit (in g)" onChange={props.handleSUChange} className="form-control forminput" id="sugargoal" />
                 </div>
                 <br />
                 <div className="formbuttondiv">
