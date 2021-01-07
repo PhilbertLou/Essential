@@ -46,7 +46,7 @@ app.use(function(req, res, next) {
 });
 
 app.use(cors({
-  origin: origin: ['http://localhost:3000', 'http://localhost:8080', 'http://localhost:3000/$/'],
+  origin: ['http://localhost:3000', 'http://localhost:8080', 'http://localhost:3000/$/'],
   methods: "GET,POST,OPTIONS",
   credentials: true,
   optionsSuccessStatus: 200
