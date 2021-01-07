@@ -25,7 +25,7 @@ Lead a healthier lifestyle in the simplest way possible and before you know it, 
 
 <h4>Tracking:</h4>
 <p>To choose how much to increment/decrement by, either click a button to use a preset value or set your own custom value in the input box.
-Then, all you need to do is click + or -, depending on what you want to do. Changes are immediately reflected and a graphical representation is given using how muc percent of the goal or limit has been reached. Thats it! No flashy effects or an overwhelmingly and intimidatingly amount of features, just the essentials. </p> 
+Then, all you need to do is click + or -, depending on what you want to do. Changes are immediately reflected and a graphical representation is given using how much percent of the goal or limit has been reached. That's it! No flashy effects or an overwhelmingly and intimidating amount of features, just the essentials. </p> 
 
 
 ![Home Page](/readmeimages/rings.png)
@@ -37,7 +37,7 @@ Then, all you need to do is click + or -, depending on what you want to do. Chan
 ![Updates](readmeimages/updates.png)
 
 <h4>Checking Previous Days:</h4>
-<p>Similar to the updates, you can also track your previous days. By clicking on the previous days link on the navbar, you will first be presented with a list of previously tracked days. By clicking on a specific day, you will be presented with your stats for that day.</p>
+<p>Similar to the updates, you can also track your previous days. By clicking on the previous day's link on the navbar, you will first be presented with a list of previously tracked days. By clicking on a specific day, you will be presented with your stats for that day.</p>
 
 
 ![Previous Day](/readmeimages/previousday.png)
