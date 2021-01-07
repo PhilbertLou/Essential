@@ -46,7 +46,7 @@ app.use(function(req, res, next) {
 });
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: origin: ['http://localhost:3000', 'http://localhost:8080', 'http://localhost:3000/$/'],
   methods: "GET,POST,OPTIONS",
   credentials: true,
   optionsSuccessStatus: 200
@@ -62,9 +62,9 @@ if(process.env.NODE_ENV === 'production'){
   app.use(express.static('client/build'));
 }
 
-app.get('*', (request, response) => {
-	response.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-});
+// app.get('*', (request, response) => {
+// 	response.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+// });
 
 //Listening on defined port
 app.listen(port, () => {
