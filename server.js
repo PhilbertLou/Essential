@@ -13,8 +13,8 @@ const port = process.env.PORT || 8080;
 
 //Getting routers and passport set up
 require('./config/passport')(passport);
-var dailyRouter = require('./routes/dailyDetails');
-var usersRouter = require('./routes/userDetails');
+var dailyRouter = require('./routes/api/dailyDetails');
+var usersRouter = require('./routes/api/userDetails');
 
 //Setting up mongoose
 // var mongoDB = process.env.DB; mongoDB <--- replaced by current for Heroku deployment

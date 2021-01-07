@@ -2,11 +2,11 @@
 var express = require('express');
 var router = express.Router();
 const { body, validationResult } = require('express-validator');
-const { ensureAuthenticated } = require('../config/auth');
-const { checkNotAuthenticated } = require('../config/auth2');
+const { ensureAuthenticated } = require('../../config/auth');
+const { checkNotAuthenticated } = require('../../config/auth2');
 
 //Require controllers here
-var uC = require('../controllers/userController');
+var uC = require('../../controllers/userController');
 
 //Added necessary routes
 router.get('/homepage', ensureAuthenticated, uC.index);

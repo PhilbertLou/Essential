@@ -2,10 +2,10 @@
 var express = require('express');
 var router = express.Router();
 const { body, validationResult } = require('express-validator');
-const { ensureAuthenticated } = require('../config/auth');
+const { ensureAuthenticated } = require('../../config/auth');
 
 //Require controllers here
-var dC = require('../controllers/dailyController');
+var dC = require('../../controllers/dailyController');
 
 //Added neccessary routes 
 // body('sodium').notEmpty(),
