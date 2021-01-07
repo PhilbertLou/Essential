@@ -50,7 +50,6 @@ var userModel = new Schema({
         default: null
     },
     trackedDate: {
-        //FIND A WAY TO USE THEIR TIMEZONE
         type: String,
         default: null
     },

@@ -33,10 +33,7 @@ exports.addInfo = async function(req, res) {
         //If theres no current tracked date for the user (this part should not run)
         if(req.user.trackedDate === null){
 
-            //Gets date
-            // var today = new Date();
-            // var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-            // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            //Gets time and date from the client
             const time = req.body.time;
             const date = req.body.date;
 
@@ -88,10 +85,8 @@ exports.addInfo = async function(req, res) {
         }else{
             //Gets user and date
             var currentuser = await user.findOne({ username: req.user.username });
-            // var today = new Date();
-            // var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+            //Gets time and date from client
             const date = req.body.date;
-            // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
             const time = req.body.time;
             var error;
 

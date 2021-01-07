@@ -16,15 +16,13 @@ mongoose.set('useCreateIndex', true);
 //Sends back the current day's info to the user
 exports.index = async function(req, res) {
     var currentuser = await user.findOne({ username: req.user.username });
-    // var today = new Date();
-    // var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-    // const date = req.body.date;
     
     // console.log(currentuser.currentDay);
     res.status(200).send({date: currentuser.trackedDate, currentDay: currentuser.currentDay, name: currentuser.name});
     return;
 };
 
+//Checks if the user is on the correct date, if not it will update it for them
 exports.checkday = async function(req,res){
     var currentuser = await user.findOne({ username: req.user.username });
     var error;
@@ -92,6 +90,7 @@ exports.checkday = async function(req,res){
     return;
 }   
 
+//If this function is called it will return an OK status
 exports.logincheck = function(req,res){
     // if(req.user){
     //     res.status(200);
@@ -183,18 +182,12 @@ exports.mkaccpost = async function(req, res) {
     }
 };
 
-//comment out later
 // exports.loginget = function(req, res) {
 //     res.send('NOT IMPLEMENTED: Login GET');
 // };
 
 //Using passport to authenticate the user
 exports.loginpost = function(req, res, next) {
-    //res.send('NOT IMPLEMENTED: Login POST');
-    // passport.authenticate('local', {
-    //     successRedirect: 'homepage',
-    //     failureRedirect: 'login'
-    // }) (req, res, next);
     passport.authenticate('local', function(err, user, info){
         if (err) { return nexr(err); }
         if(!user) {return res.status(400).send({message: 'Incorrect username or password'});}
