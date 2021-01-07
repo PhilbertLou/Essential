@@ -30,13 +30,13 @@ Then, all you need to do is click + or -, depending on what you want to do. Chan
 
 ![Home Page](/readmeimages/rings.png)
 
-<h4>Checking Updates</h4>
+<h4>Checking Updates:</h4>
 <p>Never lose track of what you inputted. You can track your daily updates by clicking the updates tab, which will outline your activity.</p>
 
 
 ![Updates](readmeimages/updates.png)
 
-<h4>Checking Previous Days</h4>
+<h4>Checking Previous Days:</h4>
 <p>Similar to the updates, you can also track your previous days. By clicking on the previous days link on the navbar, you will first be presented with a list of previously tracked days. By clicking on a specific day, you will be presented with your stats for that day.</p>
 
 
