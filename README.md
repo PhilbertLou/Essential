@@ -9,7 +9,7 @@ Lead a healthier lifestyle in the simplest way possible and before you know it, 
 ![Main Page](/readmeimages/mainpage.png)
 
 <h2>Info:</h2>
-<p>Essential is a <strong>MERN (MongoDB, Express.js, React, Node.js)</strong> stack application. 
+<p>Essential is a <strong>MERN (MongoDB, Express.js, React.js, Node.js)</strong> stack application. 
   In the backend, <strong>Passport.js</strong> and <strong>BCrypt.js</strong> were also implemented to authenticate users and securely encrypt information.
   For the frontend, <strong>Bootstrap</strong> was an essential piece for creating a responsive client interface.
 </p>
