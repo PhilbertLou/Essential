@@ -41,4 +41,8 @@ Then, all you need to do is click + or -, depending on what you want to do. Chan
 
 
 ![Previous Day](/readmeimages/previousday.png)
+
+<h2>License and Copyright:</h2>
+
+<p>Licensed under the MIT <a href="/LICENSE">License</a></p>
  
