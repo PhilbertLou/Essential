@@ -46,7 +46,7 @@ app.use(function(req, res, next) {
 });
 
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:8080', 'http://localhost:3000/$/'],
+  origin: 'http://localhost:3000',
   methods: "GET,POST,OPTIONS",
   credentials: true,
   optionsSuccessStatus: 200
@@ -58,9 +58,9 @@ app.use(express.urlencoded({extended: false}));
 app.use('/today', dailyRouter);
 app.use('/user', usersRouter);
 
-// if(process.env.NODE_ENV === 'production'){
-//   app.use(express.static('client/build'));
-// }
+if(process.env.NODE_ENV === 'production'){
+  app.use(express.static('client/build'));
+}
 
 //Listening on defined port
 app.listen(port, () => {
