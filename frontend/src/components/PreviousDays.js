@@ -1,18 +1,19 @@
+// Importing neccessary modules
 import React ,{ useEffect, useState } from 'react';
-import { BrowserRouter, Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import axios from 'axios';
-import PreviousLink from "./jsxcomponents/PreviousLink"
-import PreviousDaysPage from "./jsxcomponents/PreviousDaysPage"
+import PreviousLink from "./jsxcomponents/PreviousLink";
+import PreviousDaysPage from "./jsxcomponents/PreviousDaysPage";
 import LoadingPage from './jsxcomponents/LodingPage';
 
-function PreviousDays(props){
+function PreviousDays(){
+    // Set necessary states that need to be kept track of
     axios.defaults.withCredentials = true;
     const [days, setdays] = useState([]);
     const [message, setmessage] = useState("");
     const [loaded, setloaded] = useState(false);
-    var test;
-    const history = useHistory();
+    var daylinks;
     
+    // Will load data in if possible when mounted
     useEffect(() =>{
         axios.get('http://localhost:8080/user/previousdays/')
             .then(res => {
@@ -24,18 +25,11 @@ function PreviousDays(props){
                 setloaded(true);
             }})
     }, [])
-    
-    function handleBack(e){
-        e.preventDefault();
-        console.log(`Form submitted:`);
 
-        history.push("/home");
-    }
-
-
+    // Function that makes the previous link items
     function makeprevious(){
         if(days){
-            test = days.slice(0).reverse().map(item => <PreviousLink key={item.id} item={item}/>)
+            daylinks = days.slice(0).reverse().map(item => <PreviousLink key={item.id} item={item}/>);
         }
     }
 
@@ -43,7 +37,8 @@ function PreviousDays(props){
         <div>
             {makeprevious()}
             {loaded?<PreviousDaysPage 
-                test={test}
+                daylinks={daylinks}
+                message={message}
             />:<LoadingPage />}
         </div>
     )

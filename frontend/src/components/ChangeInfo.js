@@ -1,20 +1,21 @@
-import React ,{ useEffect, useState } from 'react';
-import { BrowserRouter, Route, Switch, Redirect, useHistory } from 'react-router-dom';
+// Importing neccessary modules
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import ChangeInfoPage from './jsxcomponents/ChangeInfoPage';
-import LoadingPage from './jsxcomponents/LodingPage';
 
-function ChangeInfo(props){
+function ChangeInfo(){
+    // Setting necessary states
     axios.defaults.withCredentials = true;
-    const [water, setwater] = useState(0);
-    const [sugar, setsugar] = useState(0);
+    const [water, setwater] = useState("");
+    const [sugar, setsugar] = useState("");
     const [password, setpassword] = useState("");
     const [password1, setpassword1] = useState("");
     const [password2, setpassword2] = useState("");
     const [message, setmessage] = useState("");
-    // const [loaded, setloaded] = useState(0);
     const history = useHistory();
 
+    // Functions that keeps the states updated in real time
     function handleWChange(e){
         setwater(e.target.value);
     };
@@ -32,20 +33,19 @@ function ChangeInfo(props){
     };
     function handleBack(e){
         e.preventDefault();
-        console.log(`Form submitted:`);
-
         history.push("/home");
     }
 
+    // Function that updates the goals
     function handleGoals(e){
         e.preventDefault();
-        console.log(`Form submitted:`);
 
         const newgoals = {
             newwatergoal: parseFloat(water).toFixed(2),
             newsugargoal: parseFloat(sugar).toFixed(2)
         };
 
+        // Passes the new goals to the API to verify then update
         axios.post('http://localhost:8080/user/changegoals', newgoals)
             .then(res => {
                 setmessage(res.data.message);
@@ -55,11 +55,9 @@ function ChangeInfo(props){
             }})
     }
 
+    // Function that updates the password
     function handlePass(e){
-        //check credientials, if its right then redirect them, may need to mark as authenticated?
-        //or just try and auth then redirect to login again and let app handle the rest
         e.preventDefault();
-        console.log(`Form submitted:`);
 
         const pass = {
             password: password,
@@ -67,6 +65,7 @@ function ChangeInfo(props){
             password2: password2
         };
 
+        // Sends info to backend to verify, then changes the password if verified
         axios.post('http://localhost:8080/user/changepass', pass)
             .then(res => {
                 setmessage(res.data.message);
@@ -82,6 +81,7 @@ function ChangeInfo(props){
             }})
     }
 
+    // Creates ChangeInfoPage element to render the page
     return (
         <div>
             <ChangeInfoPage 

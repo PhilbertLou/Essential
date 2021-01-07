@@ -1,19 +1,20 @@
+// Importing neccessary modules
 import React ,{ useEffect, useState } from 'react';
-import { BrowserRouter, Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import axios from 'axios';
-import UpdateItem from "./jsxcomponents/UpdateItem"
-import UpdatePage from "./jsxcomponents/UpdatePage"
+import UpdateItem from "./jsxcomponents/UpdateItem";
+import UpdatePage from "./jsxcomponents/UpdatePage";
 import LoadingPage from './jsxcomponents/LodingPage';
 import '../App.css';
 
 function Updates(props){
+    // Set necessary states that need to be kept track of
     axios.defaults.withCredentials = true;
     const [updates, setupdates] = useState([]);
     const [message, setmessage] = useState("");
     const [loaded, setloaded] = useState(false);
     var updatejsx;
-    const history = useHistory();
     
+    // On mount will get info
     useEffect(() =>{
         axios.get('http://localhost:8080/user/homepage/')
             .then(res => {
@@ -25,17 +26,11 @@ function Updates(props){
                 setloaded(true);
             }})
     }, [])
-    
-    // function handleBack(e){
-    //     e.preventDefault();
-    //     console.log(`Form submitted:`);
 
-    //     history.push("/home");
-    // }
-
+    // Handles making the update items
     function makeupdate(){
         if(updates){
-            updatejsx = updates.slice(0).reverse().map(item => <UpdateItem key={item._id} item={item}/>)
+            updatejsx = updates.slice(0).reverse().map(item => <UpdateItem key={item._id} item={item}/>);
         }
     }
 
@@ -44,7 +39,7 @@ function Updates(props){
             {makeupdate()}
             {loaded?<UpdatePage 
                 updatejsx={updatejsx}
-                // handleBack={handleBack}
+                message={message}
             />:<LoadingPage />}
         </div>
     )

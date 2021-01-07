@@ -1,12 +1,13 @@
+// Importing neccessary modules
 import React ,{ useEffect, useState } from 'react';
-import { BrowserRouter, Route, Switch, Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import LoadingPage from './jsxcomponents/LodingPage';
 import HomePage from './jsxcomponents/HomePage';
 import axios from 'axios';
 
 function Home(props){
+    // Set necessary states that need to be kept track of
     axios.defaults.withCredentials = true;
-
     const [name, setname] = useState("");
     const [date, setdate] = useState("");
     const [water, setwater] = useState(0);
@@ -25,90 +26,73 @@ function Home(props){
     const [sugarperc, setsugarperc] = useState(0);
     const history = useHistory();
 
+    // Will run on mount once only
     useEffect(() =>{
+
+        // Gets the current date
         const today = new Date();
         const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         let isMounted = true;
         const info = {
             date:date
         }
-        if(!loaded){
-            axios.post('http://localhost:8080/user/checkday', info)
-            .then(res=>{
-                if(res){
-                    axios.get('http://localhost:8080/user/homepage/')
-                    .then(res => {
-                        if (isMounted){
-                            setname(res.data.name);
-                            setdate(res.data.date);
-                            setwater(res.data.currentDay.water);
-                            setsugar(res.data.currentDay.sugar);
-                            setwGoal(res.data.currentDay.wGoal);
-                            setsuGoal(res.data.currentDay.suGoal);
-                            setloaded(true);
-                        }
-                        return(res)
-                    })
-                    .then(res=>{
-                        if (isMounted){
-                            setwaterperc(res.data.currentDay.wGoal?((100*res.data.currentDay.water/res.data.currentDay.wGoal).toFixed(2)):100);
-                            setsugarperc(res.data.currentDay.suGoal?((100*res.data.currentDay.sugar/res.data.currentDay.suGoal).toFixed(2)):100);
-                        }
-                        // return(res)
-                    })
-                    // .then(res=>{
-                    //     return () => { isMounted = false };
-                    // })
-                    .catch(err => {if (err.response){
+
+        // Checks if the info currently correct with the date, if not the API will correct it
+        axios.post('http://localhost:8080/user/checkday', info)
+        .then(res=>{
+            if(res){
+                // After ensuring that the info is correct, the info is then stored in state
+                axios.get('http://localhost:8080/user/homepage/')
+                .then(res => {
+                    if (isMounted){
+                        setname(res.data.name);
+                        setdate(res.data.date);
+                        setwater(res.data.currentDay.water);
+                        setsugar(res.data.currentDay.sugar);
+                        setwGoal(res.data.currentDay.wGoal);
+                        setsuGoal(res.data.currentDay.suGoal);
+                        setloaded(true);
+                    }
+                    return(res);
+                })
+                // Asynchronously calculates the percentages after values have been filled
+                .then(res=>{
+                    if (isMounted){
+                        setwaterperc(res.data.currentDay.wGoal?((100*res.data.currentDay.water/res.data.currentDay.wGoal).toFixed(2)):100);
+                        setsugarperc(res.data.currentDay.suGoal?((100*res.data.currentDay.sugar/res.data.currentDay.suGoal).toFixed(2)):100);
+                    }
+                })
+                // Catches error
+                .catch(err => {if (err.response){
+                    if (isMounted){
                         setmessage(err.response.data.message);
                         setloaded(true);
-                    }})
-                }
-            })
-        }
+                    }
+                }})
+            }
+        })
             return () => { isMounted = false };
     }, [])
-    
-    // function handleLogout(e){
-    //     e.preventDefault();
-    //     console.log(`Form submitted:`);
 
-    //     axios.post('http://localhost:8080/user/logout/')
-    //         .then(res => {
-    //             props.changeStatus(false);
-    //             history.push("/login");
-    //         })
-    //         .catch(err => {if (err.response){
-    //             props.changeStatus(false);
-    //             history.push("/login");
-    //         }})
-    // }
-
+    // Button onClick events that redirect to another page
     function handleUpdates(e){
         e.preventDefault();
-        console.log(`Form submitted:`);
-
         history.push("/updates");
     }
-
     function handleChanges(e){
         e.preventDefault();
-        console.log(`Form submitted:`);
-
         history.push("/changeinfo");
     }
-
     function handlePrevious(e){
         e.preventDefault();
-        console.log(`Form submitted:`);
-
         history.push("/previousdays");
     }
 
+    // Sends new info to API to track
     function handleTrack(e){
         e.preventDefault();
-        console.log(`Form submitted:`);
 
+        // Gets time and date
         const today = new Date();
         const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -119,8 +103,8 @@ function Home(props){
             date: date,
             time: time
         }
-        console.log(info.water)
-        console.log(info.sugar)
+
+        // Sends info to API to process and update
         axios.post('http://localhost:8080/today/addinfo', info)
             .then(res => {
                 setmessage(res.data.message);
@@ -132,18 +116,21 @@ function Home(props){
             }})
     }
 
+    // Increments the water count in real-time
     function incrementwater() {
         setwater(prevCount => (parseFloat(prevCount) + parseFloat(waternum)).toFixed(2));
         setaddedwater(prevCount => (parseFloat(prevCount) + parseFloat(waternum)).toFixed(2));
         setwaterperc(wGoal?(100*(parseFloat(water) + parseFloat(waternum))/wGoal).toFixed(2):100);
     }
 
+    // Increments the sugar count in real-time
     function incrementsugar() {
         setsugar(prevCount => (parseFloat(prevCount) + parseFloat(sugarnum)).toFixed(2));
         setaddedsugar(prevCount => (parseFloat(prevCount) + parseFloat(sugarnum)).toFixed(2));
         setsugarperc(suGoal?(100*(parseFloat(sugar)+ parseFloat(sugarnum))/suGoal).toFixed(2):100);
     }
 
+    // Decrements the water count in real-time
     function deincrementwater() {
         if (water-waternum >= 0){
             setwater(prevCount => (parseFloat(prevCount) - parseFloat(waternum)).toFixed(2));
@@ -157,6 +144,7 @@ function Home(props){
         }
     }
 
+    // Decrements the sugar count in real time
     function deincrementsugar() {
         if (sugar-sugarnum >= 0){
             setsugar(prevCount => (parseFloat(prevCount) - parseFloat(sugarnum)).toFixed(2));
@@ -170,6 +158,7 @@ function Home(props){
         }
     }
 
+    // Functions that set the number we increment/decrement a nutrient by when a button is clicked
     function water10() {
         setwaternum(10);
     }
@@ -189,17 +178,16 @@ function Home(props){
         setsugarnum(10);
     }
 
+    // Same as above but instead when a custom increment count is entered
     function handleWChange(e) {
         setwaternum(e.target.value);
         setdirectwater(e.target.value);
-        // setwaternum(10);
     }
     function handleSUChange(e){
-        // setsugarnum(e.target.value);
         setdirectsugar(e.target.value);
         setsugarnum(e.target.value);
     }
-
+    
     return (
         <div>
             {loaded? <HomePage 

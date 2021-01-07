@@ -1,7 +1,9 @@
 // import logo from './logo.svg';
+
+// Importing neccessary modules
 import './App.css';
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Route, Switch, Redirect, useLocation, useHistory } from 'react-router-dom';
+import { Route, Switch, Redirect, useLocation, useHistory } from 'react-router-dom';
 import Home from './components/Home';
 import Main from './components/Main';
 import Login from './components/Login';
@@ -16,17 +18,23 @@ import axios from 'axios';
 
 
 function App() {
+  // Making sure to check credentials every time
   axios.defaults.withCredentials = true;
+  
+  // Using location and history to move between pages and know where we are
   const location = useLocation();
   const history = useHistory();
+
+  // This variable will be checked to conditionally render private and public routes
   const [ loggedin, setlog ] = useState((location.pathname==="/login" || location.pathname==="/register")? false: true);
 
+  // Function that will be passed as a prop to child elements to set the previous variable
   function checklog(status){
     setlog(status);
   }
 
+  // Checks if the user is logged in from the get go
   useEffect(() =>{
-    //Give a second or so timeout for loading page - do this for all api calls
     let isMounted = true;
     axios.get('http://localhost:8080/user/logincheck')
             .then(res => {
@@ -38,14 +46,8 @@ function App() {
     return () => { isMounted = false };
   }, [])
 
-  useEffect(()=>{
-    console.log("HERE")
-  },[loggedin])
-
+  // Logs out the user 
   function handleLogout(e){
-    // e.preventDefault();
-    console.log(`Form submitted:`);
-
     axios.post('http://localhost:8080/user/logout/')
         .then(res => {
             setlog(false);
@@ -57,6 +59,7 @@ function App() {
         }})
   }
 
+  // A custom route that only allows access when the user is logged in
   const PrivateRoute = ({ component: Component, ...rest }) => {
     return (
       <Route
@@ -72,6 +75,7 @@ function App() {
     )
   }
 
+    // A custom route that only allows access when the user is logged out
   const PublicRoute = ({ component: Component, ...rest }) => {
     return (
       <Route
@@ -87,6 +91,7 @@ function App() {
     )
   }
 
+  // Conditionally render paths/navbars
   return (
     <main>
       {loggedin? <LoggedInNav handleLogout={handleLogout}/> : <Navbar />}

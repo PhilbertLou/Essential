@@ -1,7 +1,6 @@
 import React from "react";
-import { BrowserRouter, Route, Switch, Redirect, useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import '../../App.css';
-// import UpdateItem from "./UpdateItem"
 
 function UpdatePage(props){
     return(
@@ -12,9 +11,6 @@ function UpdatePage(props){
             <br />
             {props.updatejsx}
             <br />
-            {/* <form onSubmit={props.handleBack}>
-                <button type="submit">Go back</button>
-            </form> */}
         </div>
     )
 }

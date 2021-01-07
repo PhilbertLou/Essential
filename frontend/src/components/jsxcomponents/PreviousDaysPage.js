@@ -1,11 +1,13 @@
 import React from "react";
-import { BrowserRouter, Route, Switch, Redirect, useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import '../../App.css';
-// import UpdateItem from "./UpdateItem"
 
 function UpdatePage(props){
     return(
         <div className= "centerdiv centertext googlefont">
+            {props.message?<div className="alert alert-success formbox" role="alert">
+                <div className="formbuttondiv">{props.message}</div>
+            </div>: null}
             <h1>Previous Days</h1>
             <small className="text-muted">Done Seeing Previous Days? <Link to="/home">Go Back</Link></small>
             <br />

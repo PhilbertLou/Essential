@@ -1,22 +1,9 @@
 import React from "react";
-import { BrowserRouter, Route, Switch, Redirect, useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import '../../App.css';
 
 function MakeAccountPage(props){
     return(
-        // <form onSubmit={props.handleSubmit}>
-        //         <input type="text" name="name" value={props.name} placeholder="Name" onChange={props.handleNChange} />
-        //         <br />
-        //         <input type="text" name="username" value={props.username} placeholder="Username" onChange={props.handleUNChange} />
-        //         <br />
-        //         <input type="text" name="password1" value={props.password1} placeholder="Password" onChange={props.handleP1Change} />
-        //         <br />
-        //         <input type="text" name="password2" value={props.password2} placeholder="Retype Password" onChange={props.handleP2Change} />
-        //         <br />
-        //         <input type="number" name="watergoal" value={props.watergoal} placeholder="Water Goal" onChange={props.handleWChange} />
-        //         <br />
-        //         <input type="number" name="sugargoal" value={props.sugargoal} placeholder="Sugar Goal" onChange={props.handleSUChange} />
-        //         <br />
         <div className="center-screen formmargin googlefont">
             {props.message?<div className="alert alert-danger formbox" role="alert">
                 <div className="formbuttondiv">{props.message}</div>

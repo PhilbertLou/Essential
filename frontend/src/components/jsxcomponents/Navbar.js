@@ -1,7 +1,7 @@
 import React from "react";
-import { BrowserRouter, Route, Switch, Redirect, useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-function Navbar(props){
+function Navbar(){
     return(
         <div className="googlefont">
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">

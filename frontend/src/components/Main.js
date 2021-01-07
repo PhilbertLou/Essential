@@ -1,18 +1,19 @@
+// Importing neccessary modules
 import React from 'react';
 import '../App.css';
-import { BrowserRouter, Route, Switch, Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 function Main(){
     const history = useHistory();
 
+    // Handles redirects when a button is clicked
     function gotomakeaccount(e){
-        history.push("/register")
+        history.push("/register");
     }
-
     function gotologin(e){
-        history.push("/login")
+        history.push("/login");
     }
-
+    
     return (
         <div className="row m-0 centerdiv">
             <div className="col-md-6 mainpagetextbox mainbox">

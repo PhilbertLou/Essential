@@ -1,29 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { BrowserRouter, Route, Switch, Redirect, useHistory, Link } from 'react-router-dom';
+import React from "react";
 import '../../App.css';
-import { CircularProgressbar, CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
+import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
 
 function HomePage(props){
-    // const [waterperc, setwaterperc] = useState(0);
-    // const [sugarperc, setsugarperc] = useState(0);
-    const waterperc = props.waterperc
-    const sugarperc = props.sugarperc
-    // useEffect(()=>{
-    //     console.log(props.wGoal);
-    //     console.log(props.suGoal);
-    //     setwaterperc(props.wGoal?((100*props.water/props.wGoal).toFixed(2)):100);
-    //     setsugarperc(props.suGoal?((100*props.sugar/props.suGoal).toFixed(2)):100);
-    // }, [])
+    const waterperc = props.waterperc;
+    const sugarperc = props.sugarperc;
     return(
         <div className="googlefont">
             <div className="jumbotron jumbotron-fluid bg-dark text-white jumbotronsize">
                 <div className="container">
-                    <h1 className="display-4">Welcome back {props.name}</h1>
+                    <h1 className="display-4">Welcome back, {props.name}!</h1>
                     <p className="lead">Today is: {props.date}</p>
-                    <p className="lead">Your water goal today is: {props.wGoal} mL</p>
-                    <p className="lead">Your sugar limit today is: {props.suGoal} g</p>
+                    <p className="lead">Your water goal today is {props.wGoal} mL</p>
+                    <p className="lead">Your sugar limit today is {props.suGoal} g</p>
                     <small className="text-muted"> Tip: Pressing either submit button will register both entries. So you can click any for either or both!</small>
                     {props.message === "Tracked!"?<div><br/><div className="alert alert-success" style={{textAlign:"center"}}role="alert">
                         <div className="formbuttondiv">{props.message}</div>
@@ -100,23 +91,6 @@ function HomePage(props){
                     </div>
                 </div>
             </div>
-
-            {/* <button onClick={props.water10}>10</button>
-            <button onClick={props.water50}>50</button>
-            <button onClick={props.water100}>100</button> */}
-            {/* <input type="number" name="directwater" value={props.directwater} placeholder="Custom Value" onChange={props.handleWChange} /> */}
-            {/* <button onClick={props.sugar1}>1</button>
-            <button onClick={props.sugar5}>5</button>
-            <button onClick={props.sugar10}>10</button>
-            <input type="number" name="directsugar" value={props.directsugar} placeholder="Custom Value" onChange={props.handleSUChange} />
-            <br />
-            <button onClick={props.incrementwater}>+</button>
-            <button onClick={props.deincrementwater}>-</button>
-            <button onClick={props.incrementsugar}>+</button>
-            <button onClick={props.deincrementsugar}>-</button>
-            <br />
-            <button onClick={props.handleTrack}>Save Update</button> */}
-            {/* {props.message} */}
         </div>
     )
 }

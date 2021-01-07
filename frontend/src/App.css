@@ -11,10 +11,6 @@
 }
 
 .formbox{
-  /* width: 30%;
-  height: 70%; */
-  /* text-align: center; */
-  /* outline: 1px solid #343a40; */
   max-width: 400px;
   min-width: 350px;
 }
@@ -26,12 +22,6 @@
 .formbutton{
   width: 200px;
 }
-
-/* .forminput{
-  width: 50%;
-  height: 50%;
-  margin: 0 auto;
-} */
 
 .formlabel{
   text-align: left;
@@ -53,8 +43,6 @@
 .updatecard{
   max-width: 25rem;
   min-width: 20rem;
-  /* max-width: 55vh;
-  min-width: 30vh; */
   margin: auto;
 }
 
@@ -63,7 +51,6 @@
 }
 
 .mainpagetextbox{
-  /* margin-top: 20%; */
   padding-top: 20vh;
   padding-left: 20%;
 }
@@ -71,7 +58,6 @@
 @media screen and (max-width: 1200px) {
   .mainpagetextbox{
     margin-top: 5vh !important;
-    /* margin-left: 5vh !important; */
     padding-right: 20% !important;
     width:90%;
     min-width: 30vh;
@@ -91,7 +77,6 @@
 @media screen and (max-width: 1400px) {
   .mainpageimagebox{
     margin-top: 5vh !important;
-    /* margin-right: 5vh !important; */
     padding-left: 2000px !important;
     width:90%;
     min-width: 45vh;
@@ -120,32 +105,18 @@
 
 .lefthomepagetextbox{
   margin-top: 2vh;
-  /* padding-top: 20vh;
-  padding-left: 10vh;
-  padding-right: 30vh; */
-  /* min-width: 30vh; */
-  /* outline: 5px solid red; */
 }
 
 .righthomepagetextbox{
   margin-top: 2vh;
-  /* padding-top: 20vh;
-  padding-left: 30vh;
-  padding-right: 10vh; */
-  /* min-width: 30vh; */
-  /* outline: 5px solid red; */
 }
 
 .leftinfobox{
-  /* margin-top: 20vh; */
   padding: 10vh;
-  /* outline: 5px solid blue; */
 }
 
 .rightinfobox{
-  /* margin-top: 20vh; */
   padding: 10vh;
-  /* outline: 5px solid blue; */
 }
 
 .circlesize{
@@ -155,6 +126,7 @@
 
 .jumbotronsize{
   margin-top: 2vh !important;
+  border-radius: 5px;
   width:65%;
   margin:auto;
   padding: 0.5vh !important;
