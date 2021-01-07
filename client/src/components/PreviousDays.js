@@ -1,5 +1,5 @@
 // Importing neccessary modules
-import React ,{ useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PreviousLink from "./jsxcomponents/PreviousLink";
 import PreviousDaysPage from "./jsxcomponents/PreviousDaysPage";

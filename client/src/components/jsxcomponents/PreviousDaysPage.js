@@ -12,7 +12,7 @@ function UpdatePage(props){
             <small className="text-muted">Done Seeing Previous Days? <Link to="/home">Go Back</Link></small>
             <br />
             <br />
-            {props.test}
+            {props.daylinks}
             <br />
         </div>
     )

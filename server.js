@@ -17,8 +17,8 @@ var dailyRouter = require('./routes/dailyDetails');
 var usersRouter = require('./routes/userDetails');
 
 //Setting up mongoose
-var mongoDB = process.env.DB;
-mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
+// var mongoDB = process.env.DB; mongoDB <--- replaced by current for Heroku deployment
+mongoose.connect(process.env.DB, {useNewUrlParser: true, useUnifiedTopology: true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 mongoose.Promise = global.Promise;
@@ -57,6 +57,10 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use('/today', dailyRouter);
 app.use('/user', usersRouter);
+
+// if(process.env.NODE_ENV === 'production'){
+//   app.use(express.static('client/build'));
+// }
 
 //Listening on defined port
 app.listen(port, () => {
