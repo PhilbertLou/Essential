@@ -258,6 +258,7 @@ exports.chgoalspost = async function(req, res) {
     return;
 };
 
+//Async compare function
 function compareAsync(param1, param2) {
     return new Promise(function(resolve, reject) {
         bcrypt.compare(param1, param2, function(err, res) {
